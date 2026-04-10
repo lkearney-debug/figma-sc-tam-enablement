@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figma SC/TAM AI Enablement</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0e;
+    --bg2: #171714;
+    --bg3: #1e1e1a;
+    --bg4: #252520;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ede6;
+    --text2: #9e9b92;
+    --text3: #5c5a54;
+    --accent: #e8d5a3;
+    --accent2: #c4a882;
+    --teal: #5ecfb0;
+    --teal-bg: rgba(94,207,176,0.08);
+    --teal-border: rgba(94,207,176,0.2);
+    --purple: #a89be8;
+    --purple-bg: rgba(168,155,232,0.08);
+    --purple-border: rgba(168,155,232,0.2);
+    --coral: #e8836a;
+    --coral-bg: rgba(232,131,106,0.08);
+    --coral-border: rgba(232,131,106,0.2);
+    --amber: #e8b96a;
+    --amber-bg: rgba(232,185,106,0.08);
+    --amber-border: rgba(232,185,106,0.2);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; min-height: 100vh; }
+  
+  /* Layout */
+  .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  
+  /* Sidebar */
+  .sidebar { background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar-header { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; color: var(--accent); letter-spacing: -0.02em; line-height: 1.2; }
+  .sidebar-sub { font-size: 11px; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; font-family: 'DM Mono', monospace; }
+  .sidebar-nav { flex: 1; padding: 16px 12px; }
+  .sprint-group { margin-bottom: 20px; }
+  .sprint-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); font-family: 'DM Mono', monospace; padding: 0 12px; margin-bottom: 6px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; margin-bottom: 2px; border: 1px solid transparent; }
+  .nav-item:hover { background: var(--bg3); }
+  .nav-item.active { background: var(--bg4); border-color: var(--border2); }
+  .nav-week-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; flex-shrink: 0; }
+  .nav-week-text { flex: 1; }
+  .nav-week-title { font-size: 12px; font-weight: 400; color: var(--text); line-height: 1.3; }
+  .nav-week-type { font-size: 10px; color: var(--text3); margin-top: 1px; }
+  .nav-item.active .nav-week-title { color: var(--accent); }
+  .type-setup .nav-week-num { background: var(--bg4); color: var(--text2); border: 1px solid var(--border2); }
+  .type-foundations .nav-week-num { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+  .type-open .nav-week-num { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); }
+  .progress-label { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 8px; }
+  .progress-bar { height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s; }
+
+  /* Main */
+  .main { overflow-y: auto; }
+  .week-view { display: none; padding: 48px 52px; max-width: 860px; }
+  .week-view.active { display: block; }
+  
+  /* Week header */
+  .week-header { margin-bottom: 40px; }
+  .week-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .week-badge { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .badge-setup { background: var(--bg4); color: var(--text2); border: 1px solid var(--border2); }
+  .badge-foundations { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+  .badge-open { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .badge-sprint { font-size: 10px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .week-title { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 500; color: var(--text); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+  .week-goal { font-size: 15px; color: var(--text2); line-height: 1.7; max-width: 620px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+  .tab { padding: 10px 20px; font-size: 13px; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; letter-spacing: 0.01em; }
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Tab content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Timeline */
+  .timeline { }
+  .tl-block { display: grid; grid-template-columns: 100px 1fr; gap: 0; margin-bottom: 6px; }
+  .tl-time { padding: 14px 16px 14px 0; text-align: right; }
+  .tl-time-text { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text3); white-space: nowrap; }
+  .tl-time-dur { font-size: 10px; color: var(--text3); opacity: 0.6; margin-top: 2px; }
+  .tl-body { border-left: 1px solid var(--border); padding: 0 0 6px 20px; position: relative; }
+  .tl-body::before { content: ''; position: absolute; left: -4px; top: 18px; width: 7px; height: 7px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); }
+  .tl-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 2px; }
+  .tl-card.sync { border-color: var(--purple-border); background: var(--purple-bg); }
+  .tl-card.checkin { border-color: var(--teal-border); background: var(--teal-bg); }
+  .tl-card.regroup { border-color: var(--purple-border); background: var(--purple-bg); }
+  .tl-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .tl-card-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .tl-card.sync .tl-card-title, .tl-card.regroup .tl-card-title { color: var(--purple); }
+  .tl-card.checkin .tl-card-title { color: var(--teal); }
+  .tl-tag { font-size: 10px; font-family: 'DM Mono', monospace; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; }
+  .tag-sync { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .tag-ind { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+  .tag-checkin { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+  .tl-card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .tl-card.sync .tl-card-desc { color: rgba(168,155,232,0.75); }
+  .tl-card.checkin .tl-card-desc { color: rgba(94,207,176,0.75); }
+
+  /* Activity cards */
+  .activity-section { margin-bottom: 32px; }
+  .activity-section-title { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .activity-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+  .activity-header { padding: 16px 18px; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; transition: background 0.15s; }
+  .activity-header:hover { background: var(--bg3); }
+  .activity-header-left { flex: 1; }
+  .activity-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .activity-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .activity-tag { font-size: 10px; font-family: 'DM Mono', monospace; padding: 2px 8px; border-radius: 20px; }
+  .tag-primary { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+  .tag-alt { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+  .tag-watch { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .tag-reading { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+  .activity-duration { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .activity-chevron { color: var(--text3); font-size: 16px; transition: transform 0.2s; margin-top: 2px; flex-shrink: 0; }
+  .activity-card.open .activity-chevron { transform: rotate(180deg); }
+  .activity-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+  .activity-card.open .activity-body { display: block; }
+  .activity-desc { font-size: 13px; color: var(--text2); line-height: 1.7; margin: 14px 0 16px; }
+
+  /* Watch first */
+  .watch-first { background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 16px; }
+  .watch-first-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+  .video-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .video-item:last-child { margin-bottom: 0; }
+  .video-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--amber-bg); border: 1px solid var(--amber-border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .video-icon svg { width: 12px; height: 12px; fill: var(--amber); }
+  .video-info { flex: 1; }
+  .video-title { font-size: 13px; color: var(--text); font-weight: 400; line-height: 1.4; }
+  .video-title a { color: var(--accent); text-decoration: none; }
+  .video-title a:hover { text-decoration: underline; }
+  .video-dur { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  /* Docs */
+  .docs-section { margin-bottom: 12px; }
+  .docs-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .doc-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .doc-arrow { color: var(--text3); font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+  .doc-link { font-size: 13px; color: var(--accent2); text-decoration: none; line-height: 1.4; }
+  .doc-link:hover { color: var(--accent); text-decoration: underline; }
+  .doc-note { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+  /* Step list */
+  .step-list { margin: 12px 0; }
+  .step { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--bg4); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text3); flex-shrink: 0; margin-top: 1px; }
+  .step-text { font-size: 13px; color: var(--text2); line-height: 1.6; flex: 1; }
+  .step-text strong { color: var(--text); font-weight: 500; }
+  .step-tag { display: inline-block; font-size: 10px; font-family: 'DM Mono', monospace; padding: 1px 6px; border-radius: 20px; margin-right: 4px; vertical-align: middle; }
+
+  /* Tier cards */
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+  .tier-card { border-radius: var(--radius-sm); padding: 14px; border: 1px solid; }
+  .tier-foundation { background: rgba(59,107,17,0.1); border-color: rgba(97,169,25,0.2); }
+  .tier-core { background: var(--teal-bg); border-color: var(--teal-border); }
+  .tier-advanced { background: var(--purple-bg); border-color: var(--purple-border); }
+  .tier-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+  .tl-foundation { color: #7dc442; }
+  .tl-core { color: var(--teal); }
+  .tl-advanced { color: var(--purple); }
+  .tier-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .tc-foundation { color: #a8d97a; }
+  .tc-core { color: var(--teal); }
+  .tc-advanced { color: var(--purple); }
+  .tier-desc { font-size: 12px; line-height: 1.55; }
+  .td-foundation { color: rgba(168,217,122,0.7); }
+  .td-core { color: rgba(94,207,176,0.7); }
+  .td-advanced { color: rgba(168,155,232,0.7); }
+
+  /* Callout */
+  .callout { border-radius: var(--radius-sm); padding: 12px 14px; margin: 12px 0; font-size: 13px; line-height: 1.6; }
+  .callout-teal { background: var(--teal-bg); border: 1px solid var(--teal-border); color: rgba(94,207,176,0.8); }
+  .callout-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: rgba(232,185,106,0.8); }
+  .callout-purple { background: var(--purple-bg); border: 1px solid var(--purple-border); color: rgba(168,155,232,0.8); }
+  .callout-coral { background: var(--coral-bg); border: 1px solid var(--coral-border); color: rgba(232,131,106,0.8); }
+  .callout strong { color: var(--text); font-weight: 500; }
+
+  /* Deliverables */
+  .deliverable-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 10px; }
+  .deliverable-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .deliverable-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .icon-written { background: var(--teal-bg); border: 1px solid var(--teal-border); }
+  .icon-demo { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+  .icon-quiz { background: var(--purple-bg); border: 1px solid var(--purple-border); }
+  .deliverable-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .deliverable-type { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text3); }
+  .deliverable-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .deliverable-items { margin-top: 10px; }
+  .deliverable-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text2); line-height: 1.55; margin-bottom: 6px; }
+  .di-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text3); margin-top: 7px; flex-shrink: 0; }
+
+  /* FigJam prompts */
+  .figjam-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin: 12px 0; }
+  .figjam-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .fj-prompt { background: var(--bg4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 6px; font-size: 13px; color: var(--text2); line-height: 1.5; font-style: italic; }
+  .fj-prompt:last-child { margin-bottom: 0; }
+
+  /* Scenario */
+  .scenario-card { background: var(--bg2); border: 1px solid var(--coral-border); border-radius: var(--radius); padding: 20px 22px; margin: 16px 0; }
+  .scenario-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
+  .scenario-text { font-size: 14px; color: var(--text2); line-height: 1.75; font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; }
+  .scenario-prompts { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .scenario-prompts-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .sp-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text2); line-height: 1.55; margin-bottom: 6px; }
+
+  /* Setup checklist */
+  .checklist { margin: 12px 0; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .check-item:last-child { border-bottom: none; }
+  .check-box { width: 18px; height: 18px; border: 1px solid var(--border2); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.15s; }
+  .check-item.checked .check-box { background: var(--teal); border-color: var(--teal); }
+  .check-item.checked .check-box::after { content: '✓'; font-size: 11px; color: var(--bg); font-weight: 500; }
+  .check-item.checked .check-text { color: var(--text3); text-decoration: line-through; }
+  .check-text { font-size: 13px; color: var(--text2); line-height: 1.5; flex: 1; }
+  .check-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 1px; }
+  .check-link { font-size: 12px; color: var(--accent2); text-decoration: none; }
+  .check-link:hover { text-decoration: underline; }
+
+  /* Regroup format */
+  .regroup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+  .rg-card { background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .rg-time { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--purple); margin-bottom: 4px; }
+  .rg-title { font-size: 13px; font-weight: 500; color: rgba(168,155,232,0.9); margin-bottom: 4px; }
+  .rg-desc { font-size: 12px; color: rgba(168,155,232,0.65); line-height: 1.5; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--bg4); padding: 1px 6px; border-radius: 4px; color: var(--accent); border: 1px solid var(--border); }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; }
+    .week-view { padding: 28px 24px; }
+    .tier-grid, .regroup-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">SC/TAM<br>Enablement</div>
+      <div class="sidebar-sub">Figma AI · 5-Week Program</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sprint-group">
+        <div class="sprint-label">Sprint 1 — MCP Foundations</div>
+        <div class="nav-item type-setup active" onclick="showWeek(1)">
+          <div class="nav-week-num">1</div>
+          <div class="nav-week-text">
+            <div class="nav-week-title">Environment Setup + MCP Mental Model</div>
+            <div class="nav-week-type">Setup week</div>
+          </div>
+        </div>
+        <div class="nav-item type-foundations" onclick="showWeek(2)">
+          <div class="nav-week-num">2</div>
+          <div class="nav-week-text">
+            <div class="nav-week-title">Figma MCP Server + use_figma</div>
+            <div class="nav-week-type">Deep dive</div>
+          </div>
+        </div>
+        <div class="nav-item type-open" onclick="showWeek(3)">
+          <div class="nav-week-num">3</div>
+          <div class="nav-week-text">
+            <div class="nav-week-title">Customer Scenario — MCP Applied</div>
+            <div class="nav-week-type">Open-ended</div>
+          </div>
+        </div>
+      </div>
+      <div class="sprint-group">
+        <div class="sprint-label">Sprint 2 — Figma AI Features</div>
+        <div class="nav-item type-foundations" onclick="showWeek(4)">
+          <div class="nav-week-num">4</div>
+          <div class="nav-week-text">
+            <div class="nav-week-title">Make — Pressure Testing</div>
+            <div class="nav-week-type">Deep dive</div>
+          </div>
+        </div>
+        <div class="nav-item type-open" onclick="showWeek(5)">
+          <div class="nav-week-num">5</div>
+          <div class="nav-week-text">
+            <div class="nav-week-title">Customer Scenario — Make Applied</div>
+            <div class="nav-week-type">Open-ended</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="progress-label">0 / 5 weeks complete</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ===== WEEK 1 ===== -->
+    <div class="week-view active" id="week-1">
+      <div class="week-header">
+        <div class="week-eyebrow">
+          <span class="week-badge badge-setup">Setup Week</span>
+          <span class="badge-sprint">Sprint 1 · Week 1</span>
+        </div>
+        <h1 class="week-title">Environment Setup +<br>MCP Mental Model</h1>
+        <p class="week-goal">Get every tool installed and working. Build a shared mental model of what MCP is and why it matters for enterprise customers — so Week 2 can skip the basics and go deep. By the end of today every tool is configured, and you've made your first real MCP connection.</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(1,'schedule')">Day Schedule</div>
+        <div class="tab" onclick="showTab(1,'activities')">Activities & Resources</div>
+        <div class="tab" onclick="showTab(1,'deliverables')">Deliverables</div>
+      </div>
+
+      <div class="tab-content active" id="w1-schedule">
+        <div class="timeline">
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:00–9:15</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body">
+              <div class="tl-card sync">
+                <div class="tl-card-header"><span class="tl-card-title">Kickoff</span><span class="tl-tag tag-sync">sync</span></div>
+                <div class="tl-card-desc">Facilitator frames the week: what we're building toward, how the 5-week sprint model works, and why setup week matters. Orient to tier tracks — people self-select foundation, core, or advanced.</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
+            <div class="tl-body">
+              <div class="tl-card">
+                <div class="tl-card-header"><span class="tl-card-title">Tool Setup — Independent Work Block 1</span><span class="tl-tag tag-ind">self-paced</span></div>
+                <div class="tl-card-desc">Install and configure all core tools. VS Code, Claude Code, Figma MCP plugin, GitHub repo, SDS. Work through the setup checklist at your own pace. Post blockers to the shared doc in real time.</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
+            <div class="tl-body">
+              <div class="tl-card checkin">
+                <div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div>
+                <div class="tl-card-desc">Facilitator surfaces common blockers from the shared doc. Quick orientation for block 2. Not a discussion — a nudge and a reset.</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
+            <div class="tl-body">
+              <div class="tl-card">
+                <div class="tl-card-header"><span class="tl-card-title">MCP Mental Model + First Connection</span><span class="tl-tag tag-ind">self-paced</span></div>
+                <div class="tl-card-desc">Watch intro resources, then make your first MCP connection in claude.ai. Connect Figma MCP, extract design context from a real file, and post your "one thing I learned" to FigJam by 12:15.</div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
+            <div class="tl-body">
+              <div class="tl-card regroup">
+                <div class="tl-card-header"><span class="tl-card-title">Regroup</span><span class="tl-tag tag-sync">sync</span></div>
+                <div class="tl-card-desc">Facilitator-led discussion from FigJam. What clicked, what didn't, open questions about MCP. End with a shared team definition: "here's how we'd explain MCP to a customer in 2 sentences."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w1-activities">
+        <div class="activity-section">
+          <div class="activity-section-title">Tool Setup Checklist</div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Core tools — get these working before anything else</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">required</span><span class="activity-duration">~90 min setup total</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="checklist" id="setup-checklist">
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>VS Code</strong> Install VS Code and the Figma for VS Code extension. <a class="check-link" href="https://code.visualstudio.com/" target="_blank">Download VS Code ↗</a></div>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>Claude Code</strong> Install Claude Code via npm. Requires Node.js 18+. Run <code>npm install -g @anthropic-ai/claude-code</code> and authenticate. <a class="check-link" href="https://docs.anthropic.com/en/docs/claude-code/getting-started" target="_blank">Claude Code docs ↗</a></div>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>Figma MCP — claude.ai</strong> Go to claude.ai → Settings → Integrations. Enable the Figma MCP connector. This is the primary path — do this first. <a class="check-link" href="https://help.figma.com/hc/en-us/articles/39216419318551" target="_blank">Figma MCP setup guide ↗</a></div>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>GitHub repo</strong> Clone the team enablement repo. Make sure you have read/write access. Ask the facilitator for the repo link if you don't have it.</div>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>SDS (Shared Design System)</strong> Confirm you have access to the team SDS in Figma. You'll be referencing this in Weeks 2 and 4.</div>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <div class="check-text"><strong>Slack MCP (optional)</strong> In claude.ai → Settings → Integrations, enable Slack. Connect to a channel you can use for testing. <a class="check-link" href="https://help.figma.com/hc/en-us/articles/39216419318551" target="_blank">MCP connectors guide ↗</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">MCP Mental Model — Enterprise Framing</div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">What MCP is — and how to position it with enterprise customers</div>
+                <div class="activity-meta"><span class="activity-tag tag-watch">▶ watch first</span><span class="activity-duration">~45 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="watch-first">
+                <div class="watch-first-label">▶ Watch First</div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://www.youtube.com/watch?v=kQmXtCRpjBE" target="_blank">Anthropic MCP Explained — What is Model Context Protocol?</a></div>
+                    <div class="video-dur">~12 min · Recommended starting point</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://anthropic.skilljar.com/introduction-to-model-context-protocol" target="_blank">Anthropic MCP Intro Course (Skilljar)</a></div>
+                    <div class="video-dur">~30 min · Covers protocol, servers, transports — worth doing in full</div>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-section">
+                <div class="docs-label">Reading & Docs</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://modelcontextprotocol.io/introduction" target="_blank">MCP Introduction — Official Docs</a><div class="doc-note">Read Introduction and Architecture. These are the sections a staff engineer will have already read before your meeting.</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.anthropic.com/news/model-context-protocol" target="_blank">Anthropic MCP Announcement</a><div class="doc-note">Useful framing for why this matters at the platform level — good for executive conversations</div></div></div>
+              </div>
+              <div class="callout callout-teal">
+                <strong>After watching:</strong> Can you answer these in plain language? (1) What problem does MCP solve that a REST API doesn't? (2) Why does an enterprise architect care which transport is used? (3) How does Claude know which servers are available in a given session?
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">First MCP connection — Figma in claude.ai, with an enterprise lens</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~30 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">Connect the Figma MCP server and extract design context from a real file. As you go, think like an enterprise SC: what would a 5,000-person org's security team ask about this? What would a platform architect want to understand before approving it?</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">Go to <strong>claude.ai → Settings → Integrations</strong> and enable the Figma MCP connector. Authenticate with your Figma account.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">Open a Figma file that resembles a real enterprise product — a dashboard, admin panel, or multi-state component. Copy a specific frame URL and paste it into Claude: <em>"Describe this design. What components are used and are there any inconsistencies?"</em></div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Ask Claude: <em>"What design tokens or variables can you see in this file?"</em> Note what's visible vs what requires a plugin or the REST API. This is a common enterprise question — design token governance matters at scale.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text">Connect a second server (Slack or Notion). Run a cross-tool task: <em>"Find recent Slack messages about our design system and summarize what the team's biggest complaints are."</em> Feel what multi-tool orchestration actually looks like.</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text">Add to FigJam: what you could and couldn't see — and one question an enterprise security or platform team would ask that you can't yet answer confidently.</div></div>
+              </div>
+              <div class="tier-grid">
+                <div class="tier-card tier-foundation">
+                  <div class="tier-label tl-foundation">Foundation</div>
+                  <div class="tier-title tc-foundation">Steps 1–4</div>
+                  <div class="tier-desc td-foundation">Get the connection working. Complete the multi-tool task. That's the win for today.</div>
+                </div>
+                <div class="tier-card tier-core">
+                  <div class="tier-label tl-core">Core</div>
+                  <div class="tier-title tc-core">+ enterprise security angle</div>
+                  <div class="tier-desc td-core">After step 4, ask Claude: "What data from this Figma file was sent to you and where did it go?" Try to understand the data flow well enough to explain it to a CISO.</div>
+                </div>
+                <div class="tier-card tier-advanced">
+                  <div class="tier-label tl-advanced">Advanced</div>
+                  <div class="tier-title tc-advanced">+ break it + diagnose it</div>
+                  <div class="tier-desc td-advanced">Revoke your OAuth token mid-session. Misconfigure the server. Ask for a frame that doesn't exist. Document what the error looks like and how you'd walk a customer through it live.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="figjam-card">
+            <div class="figjam-label">📋 Required prompts — everyone adds to these</div>
+            <div class="fj-prompt">One thing about MCP that clicked for me today — in terms I could use with a VP of Engineering:</div>
+            <div class="fj-prompt">One security or compliance question an enterprise customer would ask that I can't fully answer yet:</div>
+            <div class="fj-prompt">A setup blocker I hit — or a tip that would save someone 20 minutes:</div>
+            <div class="fj-prompt">One thing I want to go deeper on in Week 2:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w1-deliverables">
+        <div class="deliverable-card">
+          <div class="deliverable-header">
+            <div class="deliverable-icon icon-written">📝</div>
+            <div><div class="deliverable-title">Written deliverable</div><div class="deliverable-type">Optional · async</div></div>
+          </div>
+          <div class="deliverable-desc">Write a 2-paragraph explanation of MCP as you'd deliver it to a skeptical VP of Engineering at a 3,000-person enterprise — someone who's been burned by AI hype and wants to know what's technically different this time. No jargon. No "revolutionize." Just what it is and why it matters for their team.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header">
+            <div class="deliverable-icon icon-demo">🎥</div>
+            <div><div class="deliverable-title">Loom demo</div><div class="deliverable-type">Optional · async</div></div>
+          </div>
+          <div class="deliverable-desc">Record a 3-minute Loom: show your Figma MCP connection working in claude.ai, extract context from a frame, run a multi-tool task. Narrate as if the customer's platform architect is watching and will ask follow-up questions.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header">
+            <div class="deliverable-icon icon-quiz">✓</div>
+            <div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div>
+          </div>
+          <div class="deliverable-items">
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain MCP to a VP of Engineering without using the word "protocol" or "server" in the first sentence?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Do you know what data the Figma MCP server sends to Claude — and can you explain it accurately if a security team asks?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you felt what multi-tool orchestration actually looks like — not just read about it?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Are all tools from the setup checklist working and verified?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WEEK 2 ===== -->
+    <div class="week-view" id="week-2">
+      <div class="week-header">
+        <div class="week-eyebrow">
+          <span class="week-badge badge-foundations">Deep Dive</span>
+          <span class="badge-sprint">Sprint 1 · Week 2</span>
+        </div>
+        <h1 class="week-title">Figma MCP Server<br>+ <code style="font-size:28px">use_figma</code></h1>
+        <p class="week-goal">Go deep on how the Figma MCP server actually works at enterprise scale — data flow, auth, what it can and can't access, and how it fits into a complex org's existing toolchain. The goal is being able to hold a precise technical conversation with a platform architect who has already read the docs, and articulate clearly what Figma brings to the AI workflow.</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(2,'schedule')">Day Schedule</div>
+        <div class="tab" onclick="showTab(2,'activities')">Activities & Resources</div>
+        <div class="tab" onclick="showTab(2,'deliverables')">Deliverables</div>
+      </div>
+
+      <div class="tab-content active" id="w2-schedule">
+        <div class="timeline">
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:00–9:15</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Frame the three questions this week needs to answer: How does it work? What can and can't it see? How does it fail? Orient to tier tracks for the day.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Deep dive — how the server works</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Watch resources, inspect raw tool call payloads, compare remote vs local setup. Post first finding to FigJam before check-in.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
+            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator highlights 2–3 findings from FigJam. Surfaces any disagreements. Reorients for block 2.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Customer use cases + hard questions</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Walk through real customer use cases. Prepare answers to the 4 hard technical questions. Add second finding + "one thing I'd tell a customer" to FigJam by 12:15.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
+            <div class="tl-body"><div class="tl-card regroup"><div class="tl-card-header"><span class="tl-card-title">Regroup</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Built from FigJam. Facilitator surfaces the most interesting disagreement. End with: "here's how we'd answer the 4 hard questions today."</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w2-activities">
+        <div class="activity-section">
+          <div class="activity-section-title">How the Figma MCP Server Actually Works</div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Server mechanics — remote vs local, transports, auth</div>
+                <div class="activity-meta"><span class="activity-tag tag-watch">▶ watch first</span><span class="activity-duration">~50 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="watch-first">
+                <div class="watch-first-label">▶ Watch First</div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://www.youtube.com/watch?v=kQmXtCRpjBE" target="_blank">Figma MCP Collection: How to Set Up the Remote MCP Server (Official)</a></div>
+                    <div class="video-dur">~10 min · Start here · Official setup walkthrough</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://www.youtube.com/watch?v=AhAINPRmHQ0" target="_blank">Figma MCP Server — VS Code + Cursor Setup</a></div>
+                    <div class="video-dur">~12 min · Local setup via IDE · Compare to claude.ai path</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://www.youtube.com/watch?v=MYs3O7C88nc" target="_blank">MCP Transports Explained — SSE vs stdio</a></div>
+                    <div class="video-dur">~18 min · Technical depth · Essential for answering customer infra questions</div>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-section">
+                <div class="docs-label">Reading & Docs</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://help.figma.com/hc/en-us/articles/39216419318551-Get-started-with-the-Figma-MCP-server" target="_blank">Get Started with Figma MCP Server (Help Center)</a><div class="doc-note">Official setup guide — remote and local paths</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">MCP Transports — Official Docs</a><div class="doc-note">SSE vs stdio — read before trying to explain auth to a customer</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.figma.com/developers/api" target="_blank">Figma REST API Reference</a><div class="doc-note">Know this well enough to explain how MCP differs from it</div></div></div>
+              </div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">Watch the remote setup video. Then open claude.ai, connect Figma MCP, and paste a frame URL. Ask Claude: <em>"What tools did you use to answer that? What did the response look like?"</em> — try to get Claude to surface the raw context.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">Set up the same server locally in VS Code (see local setup video). Run the same extraction and <strong>compare what's different</strong> — config file, auth flow, context quality.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Break something intentionally.</strong> Revoke the OAuth token mid-session. Ask for a frame that doesn't exist. Misconfigure the server. Document what the error looks like and how you'd diagnose it with a customer.</div></div>
+              </div>
+              <div class="tier-grid">
+                <div class="tier-card tier-foundation">
+                  <div class="tier-label tl-foundation">Foundation</div>
+                  <div class="tier-title tc-foundation">Steps 1–2</div>
+                  <div class="tier-desc td-foundation">Get both setups working and note what's different between them.</div>
+                </div>
+                <div class="tier-card tier-core">
+                  <div class="tier-label tl-core">Core</div>
+                  <div class="tier-title tc-core">Steps 1–3</div>
+                  <div class="tier-desc td-core">Break it and document the failure mode. Be able to walk a customer through the fix.</div>
+                </div>
+                <div class="tier-card tier-advanced">
+                  <div class="tier-label tl-advanced">Advanced</div>
+                  <div class="tier-title tc-advanced">Steps 1–3 + inspect payloads</div>
+                  <div class="tier-desc td-advanced">Use Claude Code to inspect the raw MCP tool call payloads. What is Claude actually sending and receiving? What's in the context vs what's inferred?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">The hard questions enterprise customers will ask — prepare precise, technically honest answers</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">must-have</span><span class="activity-duration">~40 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">Enterprise platform architects and VPs of Engineering ask specific, pointed questions. The goal isn't a polished pitch — it's the kind of accurate, grounded answer that builds credibility with a technical audience who will immediately sense vagueness.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>"What data leaves Figma and where does it go?"</strong> — Be specific: what the MCP server sends, where it goes (Anthropic's infrastructure), what Figma controls vs what Anthropic processes, and where enterprise DPA / BAA agreements apply. Vague answers fail with enterprise security teams.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>"We already use Claude directly. What does adding the Figma MCP server give us?"</strong> — The answer is about structured design context: Claude without MCP is working from descriptions or screenshots. Claude with Figma MCP has component structure, token values, variant states, and hierarchy — the design system, not an approximation of it. That precision is what makes output accurate at scale.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>"Our product teams are building more in code. How does Figma stay relevant in that workflow?"</strong> — The answer here is about what Figma adds at org scale: design system governance, consistency enforcement across 40+ product teams, and a shared source of truth that gives AI tools accurate context to work from. It's not about handoff — it's about what makes AI-generated output trustworthy across a large org.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>"Can we self-host or run this air-gapped?"</strong> — Know the real constraints. What Figma controls, what's possible via local MCP setup in VS Code, what requires Anthropic infrastructure, and where the actual limits are today.</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>"How is this different from the Figma REST API — we already have integrations built on that?"</strong> — MCP adds a natural language interface and agent orchestration layer. The REST API gives you data on demand. MCP gives Claude the ability to reason about design decisions in context, across tools, without custom integration code per workflow.</div></div>
+              </div>
+              <div class="callout callout-amber">
+                <strong>How to use these:</strong> Write the answer you'd give if a staff engineer interrupts you mid-sentence and says "wait — how does that actually work?" You need to be able to go one level deeper on any of these, not repeat the same sentence louder.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="figjam-card">
+            <div class="figjam-label">📋 Required prompts</div>
+            <div class="fj-prompt">Something the Figma MCP server surfaces that gives Claude a meaningful advantage over working without it — and a specific example:</div>
+            <div class="fj-prompt">Something it can't yet access that enterprise customers will ask about — and how I'd handle that question:</div>
+            <div class="fj-prompt">A failure mode I hit and how I'd walk a customer through diagnosing it:</div>
+            <div class="fj-prompt">The clearest way I can explain what Figma adds to an AI workflow — in one sentence, to a platform architect:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w2-deliverables">
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Objection response doc</div><div class="deliverable-type">Optional · async · feeds team knowledge base</div></div></div>
+          <div class="deliverable-desc">Write your prepared responses to all 5 hard questions as a reference doc. These should be the answers you'd want in front of you before a technical discovery call with a platform architect. Specific, honest, one level deeper than the surface answer.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Live technical demo Loom</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">5-minute Loom: demo the Figma MCP server live in claude.ai against a realistic enterprise Figma file. Show component context extraction, design token visibility, and multi-tool orchestration. Narrate as if a staff architect is watching and will ask about data flow.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
+          <div class="deliverable-items">
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you articulate what Figma + MCP gives Claude that Claude alone doesn't have — specifically enough that a senior engineer would find it credible?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain what the MCP server sends to Claude and where that data goes — accurately enough that a security team wouldn't have follow-up questions?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you set up the server both remotely (claude.ai) and locally (VS Code) and intentionally broken it?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain the role of Figma in an AI-assisted workflow at enterprise scale — not as a handoff tool, but as a source of structured context?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WEEK 3 ===== -->
+    <div class="week-view" id="week-3">
+      <div class="week-header">
+        <div class="week-eyebrow">
+          <span class="week-badge badge-open">Open-Ended</span>
+          <span class="badge-sprint">Sprint 1 · Week 3</span>
+        </div>
+        <h1 class="week-title">Real Customer Scenario —<br>Figma MCP Applied</h1>
+        <p class="week-goal">Work through a real enterprise customer situation that forces you to apply Figma MCP knowledge under pressure — with a skeptical technical stakeholder, a real constraint, and both core objections present. Define the problem, build a solution, defend it as if the customer is in the room.</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(3,'schedule')">Day Schedule</div>
+        <div class="tab" onclick="showTab(3,'activities')">Scenario & Activities</div>
+        <div class="tab" onclick="showTab(3,'deliverables')">Deliverables</div>
+      </div>
+
+      <div class="tab-content active" id="w3-schedule">
+        <div class="timeline">
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:00–9:15</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff — read the brief</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Facilitator distributes the customer scenario. Everyone reads it. Facilitator takes 3 clarifying questions — nothing more. After that, you're working independently.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Problem framing + approach design</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the customer problem. Decide which tools to use and why. Design your approach. Start building. Post your problem framing to FigJam before check-in.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
+            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator notes different approaches from FigJam. Not a debrief — just awareness that people are taking different paths. Back to work.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Build + prepare to present</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Finish your solution. Prepare a 3-minute presentation as if the customer is in the room. Add solution summary + tradeoffs to FigJam by 12:15.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
+            <div class="tl-body"><div class="tl-card regroup"><div class="tl-card-header"><span class="tl-card-title">Regroup — debrief + best practices</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Facilitator highlights 2–3 different approaches from FigJam. Group plays skeptical customer. End with: team-agreed best practices that came out of this session.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w3-activities">
+        <div class="scenario-card">
+          <div class="scenario-label">Customer Scenario — Week 3</div>
+          <div class="scenario-text">You're three weeks into an enterprise expansion deal at a 6,000-person financial services company. They're a strong Figma org — 200 designers, an established design system, and 40+ product teams. The SC on the original deal flagged that the VP of Platform Engineering, Raj, has become a blocker. Raj's team owns the front-end platform that all 40 product teams build on. In a recent exec QBR, Raj said two things: first, that his engineers have started prototyping directly in React using Claude and Cursor, and several teams have stopped using Figma as a handoff layer entirely. Second, that he evaluated Make and found the output quality "not production-ready" — his lead engineer ran a side-by-side with Claude Code and Make lost on fidelity, token accuracy, and component adherence.<br><br>You have a 45-minute call with Raj and his lead platform engineer, Sonia, next Tuesday. The account exec wants you to "re-establish the value of Figma in the AI workflow." Raj is not hostile — he's pragmatic. He'll engage honestly if you do. What do you do with these 45 minutes, and what do you actually show them?</div>
+          <div class="scenario-prompts">
+            <div class="scenario-prompts-label">Debrief prompts for the regroup</div>
+            <div class="sp-item"><div class="di-dot"></div><span>Did you try to re-sell Figma as a design tool — or did you meet Raj where he is and talk about what Figma adds at platform scale that code-first prototyping doesn't solve?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>How did you handle the Make quality objection — did you concede it, reframe it, or demonstrate something that changed the framing?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What would Sonia (the lead engineer) need to see to walk away convinced — and is that different from what Raj needs?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>If the Figma MCP server was the centerpiece of your demo — did it actually address Raj's concerns, or did it just show a cool feature?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What's the honest version of this conversation — where would you tell Raj Figma genuinely adds value, and where would you acknowledge the limits?</span></div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">How to Work Through This</div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Framework — don't defend Figma, understand Raj's actual problem</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">read first</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">The instinct in this scenario is to re-sell Figma. That's the wrong move with a stakeholder like Raj. Work through these before you decide what to build or show.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>What problem is Raj actually solving?</strong> His engineers are faster without Figma in the loop. That's a real observation, not a misconception. What does Figma genuinely add at a 6,000-person org with 40 product teams that code-first prototyping doesn't? Be honest about this before the call.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>What did Make lose on in his engineer's test?</strong> Fidelity, token accuracy, component adherence — these are specific. Don't dismiss them. Understand what conditions produced those results and whether the Figma MCP server changes any of them.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>What does Sonia need vs what Raj needs?</strong> Raj needs a platform-level answer. Sonia needs a technical one she can verify herself. These require different things from you in the same 45 minutes.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>What's your honest position?</strong> There are things Figma + MCP does better than Claude alone. There are also things where the gap is real. Where would you tell Raj Figma genuinely wins — and where would you acknowledge the limits rather than paper over them?</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Now build your 45 minutes.</strong> Discovery, demo, or workshop? What specifically would you show with the Figma MCP server that addresses what Raj actually raised — not just what looks impressive?</div></div>
+              </div>
+              <div class="callout callout-coral">
+                <strong>The trap to avoid:</strong> Showing a Figma MCP demo that is technically impressive but doesn't address the Make quality objection or the code-first workflow shift. Raj will notice. Sonia definitely will. The demo has to connect directly to what they said.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="figjam-card">
+            <div class="figjam-label">📋 Required prompts</div>
+            <div class="fj-prompt">My honest answer to: what does Figma genuinely add at enterprise scale that code-first prototyping doesn't solve? (Not the pitch — the real answer):</div>
+            <div class="fj-prompt">How I addressed the Make quality objection — did I concede, reframe, or demonstrate something different?</div>
+            <div class="fj-prompt">What I would show Sonia (the engineer) vs what I'd show Raj (the VP) — and why they're different:</div>
+            <div class="fj-prompt">The one thing I couldn't answer confidently and how I'd find out before the real meeting:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w3-deliverables">
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Pre-call plan</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Write the pre-call plan you'd send to the account exec before Tuesday's call with Raj and Sonia. What's the goal of the call, what are the two or three things you need to learn in discovery, what will you show and in what order, and what's your ask at the end. Treat it as a real document you'd actually send.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — the 45-minute call</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Record your version of the 45-minute call as a 5-minute Loom. Show what you'd demo with the Figma MCP server, narrate how you'd handle the Make quality objection live, and explain how you're addressing Sonia's concerns vs Raj's. This should feel like a real customer recording, not a product demo.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
+          <div class="deliverable-items">
+            <div class="deliverable-item"><div class="di-dot"></div><span>Does your approach actually address what Raj raised — or does it sidestep the Make quality objection and the code-first workflow concern?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you say something honest and specific about where Figma + MCP wins vs where Claude alone is genuinely competitive?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Would Sonia — a skeptical lead engineer — find your technical answers credible, or would she have follow-up questions you can't answer?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WEEK 4 ===== -->
+    <div class="week-view" id="week-4">
+      <div class="week-header">
+        <div class="week-eyebrow">
+          <span class="week-badge badge-foundations">Deep Dive</span>
+          <span class="badge-sprint">Sprint 2 · Week 4</span>
+        </div>
+        <h1 class="week-title">Make — Structured<br>Pressure Testing</h1>
+        <p class="week-goal">Everyone tests all three Make surfaces — kits, templates, npm packages — independently, at different depths. The goal is a precise, evidence-based picture of what Make produces under enterprise conditions, so you can advise customers with specificity and run credible live demos against complex, real-world Figma files.</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(4,'schedule')">Day Schedule</div>
+        <div class="tab" onclick="showTab(4,'activities')">Activities & Resources</div>
+        <div class="tab" onclick="showTab(4,'deliverables')">Deliverables</div>
+      </div>
+
+      <div class="tab-content active" id="w4-schedule">
+        <div class="timeline">
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:00–9:15</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Frame the three surfaces and what "works" means in a customer context: output quality, reliability, dev effort after. Orient to tier tracks. Everyone tests all three surfaces — depth varies by tier.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Testing block 1 — Kits + Templates</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Work through Make Kits and Templates. Run the 3 cross-cutting test cases. Post first finding to FigJam before check-in.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
+            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator reads the FigJam. Calls out 1–2 disagreements or surprises so far. Back to work.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Testing block 2 — npm packages</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Test npm package integration — at least one clean package and one messy/underdocumented one. Add second finding + customer advice to FigJam by 12:15.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
+            <div class="tl-body"><div class="tl-card regroup"><div class="tl-card-header"><span class="tl-card-title">Regroup — build the team view</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Facilitator starts with disagreements, not confirmations. Drafts team position on each surface live. Last 10 minutes: assign owners for field guide, demo kit, and FigJam findings board.</div></div></div>
+          </div>
+        </div>
+        <div class="regroup-grid">
+          <div class="rg-card">
+            <div class="rg-time">12:30–12:40</div>
+            <div class="rg-title">Surface the tension</div>
+            <div class="rg-desc">1–2 genuine disagreements from FigJam. "X said kits worked great, Y said they didn't — let's find out why."</div>
+          </div>
+          <div class="rg-card">
+            <div class="rg-time">12:40–12:52</div>
+            <div class="rg-title">Build team position</div>
+            <div class="rg-desc">Facilitator drafts team view live: "here's what we'd tell a customer today." Group corrects in real time.</div>
+          </div>
+          <div class="rg-card">
+            <div class="rg-time">12:52–1:00</div>
+            <div class="rg-title">Assign and close</div>
+            <div class="rg-desc">Field guide, demo kit, findings board owners named before 1pm. Nothing left as "someone will do this."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w4-activities">
+        <div class="activity-section">
+          <div class="activity-section-title">The 3 Cross-Cutting Test Cases — run these against all surfaces</div>
+          <div class="callout callout-teal">
+            <strong>Test like an enterprise customer would use it:</strong> Use a Figma file with a real design system — design tokens, components with variants, proper hierarchy. The more enterprise-realistic your test conditions, the more useful your findings will be for actual customer conversations.
+          </div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Enterprise-realistic test prompts + what to document</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">all tiers</span><span class="activity-duration">~60–90 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">Run these same three prompts against Make Kits, Templates, and npm packages. Use a Figma file that has an actual design system — design tokens, components with variants, real hierarchy. Don't test against a toy file.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">A</div><div class="step-text"><strong>Component with design tokens:</strong> <em>"Generate a primary button that uses our design system's color tokens, with default, hover, focus, and disabled states. The output should reference token names, not hardcoded values."</em> — This is where Make often loses vs Claude Code. Document what you get and how much manual cleanup a developer would need.</div></div>
+                <div class="step"><div class="step-num">B</div><div class="step-text"><strong>Complex enterprise component:</strong> <em>"Generate a data table with sortable headers, row selection, inline status badges, and a bulk action toolbar. Match the component library patterns exactly."</em> — How does Make handle structural complexity? Where does it diverge from the Figma source?</div></div>
+                <div class="step"><div class="step-num">C</div><div class="step-text"><strong>Multi-variant component from a design system:</strong> <em>"Generate a form input with label, helper text, error state, and character counter — matching our design system's spacing, typography, and color variables."</em> — This tests whether Make can faithfully translate a component that has a well-defined spec in Figma. Compare output to what Claude Code alone would produce from the same prompt.</div></div>
+              </div>
+              <div class="docs-section" style="margin-top:14px">
+                <div class="docs-label">For each test, document honestly:</div>
+                <div class="doc-item"><div class="doc-arrow">→</div><div class="doc-note" style="font-size:13px;color:var(--text2)">Output quality (1–5) · Token accuracy (did it use design tokens or hardcode values?) · Component adherence (how close to the Figma source?) · Developer effort needed after · Where it beat your expectation · Where it lost vs Claude Code</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">Surface-Specific Testing</div>
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Make Kits</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~40 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="watch-first">
+                <div class="watch-first-label">▶ Watch First</div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://help.figma.com/hc/en-us/articles/24950026906263" target="_blank">Figma Make — Getting Started (Official Help Center)</a></div>
+                    <div class="video-dur">~8 min · Start here for Make overview</div>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-section">
+                <div class="docs-label">Docs</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://help.figma.com/hc/en-us/articles/24950026906263" target="_blank">Figma Make Help Center</a></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.figma.com/community/make" target="_blank">Figma Make Community — Kits and Templates</a></div></div>
+              </div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">Run all 3 cross-cutting test cases against 2 different kits. Do the kits affect output quality? How?</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">Test how prompts transfer across kits — does the same prompt get better results with a different kit?</div></div>
+              </div>
+              <div class="tier-grid">
+                <div class="tier-card tier-foundation"><div class="tier-label tl-foundation">Foundation</div><div class="tier-title tc-foundation">Steps 1–2</div><div class="tier-desc td-foundation">Run the tests, document results.</div></div>
+                <div class="tier-card tier-core"><div class="tier-label tl-core">Core</div><div class="tier-title tc-core">+ vary prompts</div><div class="tier-desc td-core">Try 3 variations of each prompt. How sensitive is output to phrasing?</div></div>
+                <div class="tier-card tier-advanced"><div class="tier-label tl-advanced">Advanced</div><div class="tier-title tc-advanced">+ find failure modes</div><div class="tier-desc td-advanced">Find the conditions under which kits produce bad output. Document the boundary cases.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Make Templates</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~40 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">Run the 3 cross-cutting test cases against 2 templates.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">Customize a template heavily and rerun — what breaks when a customer diverges significantly from the template structure?</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Test with and without an existing design system. Does the template perform differently?</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">npm packages — test clean and messy</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~50 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">This is the one most customers will ask about. Test against at least one well-maintained package and one that's underdocumented or structurally inconsistent — because that's what you'll actually encounter.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Clean package:</strong> Use a well-documented public component library (e.g. shadcn/ui, Radix). Run the 3 cross-cutting test cases. How accurate is the output?</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Messy package:</strong> Find or create an npm package with inconsistent naming, missing exports, or sparse docs. Rerun the same tests. How does output quality degrade?</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Document: what would a customer need to do to their npm package before Make gives good results?</div></div>
+              </div>
+              <div class="callout callout-coral"><strong>Test against real conditions.</strong> Most enterprise customers have complex Figma files and varied npm packages. Testing Make only against clean, simple inputs will underrepresent what it can do — and leave you underprepared for the range of situations you'll encounter with customers.</div>
+              <div class="docs-section">
+                <div class="docs-label">Reference packages for testing</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://ui.shadcn.com" target="_blank">shadcn/ui</a><div class="doc-note">Clean, well-documented — good baseline</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.radix-ui.com" target="_blank">Radix UI</a><div class="doc-note">Headless components — tests how Make handles unstyled primitives</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="figjam-card">
+            <div class="figjam-label">📋 Required prompts</div>
+            <div class="fj-prompt">Where Make produced results I'd be confident showing an enterprise customer — and the conditions that made it work:</div>
+            <div class="fj-prompt">Where output quality varied and what drove it — file structure, prompt specificity, npm package quality, or something else:</div>
+            <div class="fj-prompt">The customer profile and setup where I'd confidently lead with Make — specific, not vague:</div>
+            <div class="fj-prompt">What a customer's Figma file and npm package need to look like to get enterprise-quality results from Make:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w4-deliverables">
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Make field guide contribution</div><div class="deliverable-type">Optional · async · feeds the Week 5 team artifact</div></div></div>
+          <div class="deliverable-desc">Write up your findings from all 3 surfaces in the shared team format. The most valuable section: specific customer and Figma file conditions where each surface performs best — concrete enough that a teammate could use it to advise a customer they've never spoken to you about.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — Make in action across all three surfaces</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">5-minute Loom showing Make output for the same enterprise-grade prompt across kits, templates, and npm — side by side. Show what each surface produces and narrate when you'd recommend each. This becomes a shareable resource for the whole team.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
+          <div class="deliverable-items">
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you say specifically — with evidence from today — which Make surface to recommend for which enterprise customer conditions?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you tested against an enterprise-quality Figma file with real design tokens, not a simple example?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you tested against both a clean and a varied npm package to understand what drives output differences?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Could you run a live Make demo in a customer meeting tomorrow — and narrate what's happening at a technical level as you go?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WEEK 5 ===== -->
+    <div class="week-view" id="week-5">
+      <div class="week-header">
+        <div class="week-eyebrow">
+          <span class="week-badge badge-open">Open-Ended</span>
+          <span class="badge-sprint">Sprint 2 · Week 5</span>
+        </div>
+        <h1 class="week-title">Customer Scenario —<br>Make Applied</h1>
+        <p class="week-goal">Apply Week 4 findings to a real, enterprise-grade customer situation — and build the three team artifacts that the whole team can use in customer conversations going forward. These are not homework. They get built today.</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(5,'schedule')">Day Schedule</div>
+        <div class="tab" onclick="showTab(5,'activities')">Scenario & Artifacts</div>
+        <div class="tab" onclick="showTab(5,'deliverables')">Deliverables</div>
+      </div>
+
+      <div class="tab-content active" id="w5-schedule">
+        <div class="timeline">
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:00–9:15</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff — brief + artifact assignments</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Distribute the scenario. Assign artifact ownership: who leads the field guide, the FigJam findings board, and the demo kit. These get built during the session — not after.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Problem framing + solution build</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the customer problem. Select your approach. Build your solution. Artifact owners start pulling findings from Week 4 FigJam into their draft.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
+            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator checks artifact progress. Are owners building or waiting? Unblock anything. Back to work.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">11:10–12:15</div><div class="tl-time-dur">65 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Finalize solutions + build artifacts</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Wrap your customer solution. Artifact owners finalize drafts. Everyone reviews the field guide draft and adds any missing findings by 12:15.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:15–12:30</div><div class="tl-time-dur">15 min</div></div>
+            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Artifact review — everyone reads the field guide</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">15 minutes to read and react before the regroup. Add comments or corrections directly in the doc.</div></div></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
+            <div class="tl-body"><div class="tl-card regroup"><div class="tl-card-header"><span class="tl-card-title">Regroup — scenario debrief + artifact sign-off</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Debrief the scenario first (15 min). Then review artifacts as a team — what's missing, what needs to change, who owns what next. Leave with artifacts that are 80%+ done.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w5-activities">
+        <div class="scenario-card">
+          <div class="scenario-label">Customer Scenario — Week 5</div>
+          <div class="scenario-text">You're in an active expansion deal at a 9,000-person enterprise retailer. They're a mature Figma org with a well-maintained design system — 300+ components, design tokens published via Style Dictionary, and a shared governance process across 6 product lines. Their front-end platform team has built a React component library on top of the design system and publishes it as an internal npm package. The package is well-structured but sparsely documented — components have accurate names but minimal prop-level documentation.<br><br>The VP of Design, Yemi, wants to use Make to let her designers produce higher-fidelity specs faster and reduce handoff friction. The Head of Front-End Engineering, Marcus, attended Yemi's pilot review and raised two concerns: first, the Make output in the pilot didn't reference their design token names — it hardcoded hex values, which means developers would need to manually replace every color reference before the code was usable. Second, Marcus said his team is already getting better results with Claude Code pulling directly from their component library, without Figma in the loop. He's not sure what Make adds.<br><br>You have a 60-minute workshop with Yemi, Marcus, and two of his senior engineers next week. What's your plan — and what do you actually build and show?</div>
+          <div class="scenario-prompts">
+            <div class="scenario-prompts-label">Debrief prompts</div>
+            <div class="sp-item"><div class="di-dot"></div><span>Did your Week 4 testing give you a real answer to the token accuracy failure Marcus described — or were you still working from assumption?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>How did you address "Claude Code works without Figma in the loop" — and was your answer technically honest or just a reframe?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What would the two senior engineers need to see in the workshop to walk away with a different view of Make?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What would need to be true about their Figma file, their npm package, or their workflow for you to tell Marcus "actually, you're right — Claude Code is probably enough for your team right now"?</span></div>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <div class="activity-section-title">Three Team Artifacts — Built During the Session</div>
+          <div class="callout callout-purple"><strong>These are not homework.</strong> They get built today. Artifact owners are assigned at kickoff. If they're not done by 1pm, the session didn't deliver. The last 65 minutes of block 2 is for this as much as for the scenario.</div>
+
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Artifact 1 — Make enterprise field guide</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">team artifact</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">The doc your team reaches for before any customer conversation that involves Make. Built from Week 4 findings — specific evidence, concrete recommendations.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>When Make excels:</strong> Specific customer and Figma file conditions where Make produces enterprise-quality output — with the token accuracy and component fidelity data from Week 4</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Surface decision guide:</strong> Specific conditions for kits vs templates vs npm — concrete enough that a teammate could use it without asking you</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Figma + npm readiness checklist:</strong> What a customer's design system and component library need to look like for Make to produce clean output — token structure, naming conventions, documentation level</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>The value of Figma in the AI workflow:</strong> A crisp, precise answer for platform-level stakeholders asking what Figma contributes to an AI-assisted development process at enterprise scale</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Hard questions + answers:</strong> The 5 questions enterprise platform engineers will ask — with answers grounded in what the team actually found in Week 4</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Artifact 2 — FigJam findings board (shareable with the broader team)</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">team artifact</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">A visual board structured for people who weren't in this program — AEs, CSMs, other SCs and TAMs who need a fast read before a customer call.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">Side-by-side: kits vs templates vs npm — output quality, token accuracy, ideal customer profile, setup complexity</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">Decision tree: "My customer has X situation — what do I recommend?" — includes the "Claude Code might be enough" path</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">Real output examples from Week 4 testing — best case and failure cases, labeled with the conditions that produced them</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text">One-liner for the token accuracy objection and the code-first workflow objection — pre-written and approved by the group</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Artifact 3 — Customer-ready demo kit</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">team artifact</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">A working Make setup anyone on the team can run live. Pre-configured, tested against an enterprise-quality Figma file, ready to go without prep.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text">One kit, one template, one npm reference — configured against the team SDS, tested and verified to produce clean token output</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text">A run-of-show for each: what to say, what to show, how to handle the token accuracy question if it comes up live</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text">A fallback plan for when something doesn't work in front of a customer — tested, not theoretical</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text">A comparison prompt ready to run: same input in Make vs Claude Code — so you can show the specific value of Figma's design context in the output, live, and narrate the difference</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="w5-deliverables">
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Workshop plan</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Write the 60-minute workshop plan for the call with Yemi, Marcus, and his engineers. What's the goal, how do you structure the time, what do you show and in what order, how do you handle the token accuracy concern and the "Claude Code is enough" objection, and what's your ask at the end. Treat it as a document you'd actually send to the AE beforehand.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Demo kit walkthrough Loom</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">5-minute Loom walking through the team demo kit as if onboarding a new SC or TAM. Show each surface, explain when you'd use it with an enterprise customer, demonstrate how to handle the token accuracy question live, and show the Claude Code side-by-side prompt.</div>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
+          <div class="deliverable-items">
+            <div class="deliverable-item"><div class="di-dot"></div><span>Does the team now have a shared, evidence-based point of view on Make in enterprise conditions — specific enough to use in a customer conversation tomorrow?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you articulate precisely what Figma's design context adds to Make's output — in a way a senior engineer would find technically credible?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Could you run the demo kit live in a customer workshop — including the comparison prompt — without prep?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Are the three artifacts in a state where an AE or CSM who wasn't in this program could actually use them?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function showWeek(n) {
+  document.querySelectorAll('.week-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('week-' + n).classList.add('active');
+  document.querySelectorAll('.nav-item')[n-1].classList.add('active');
+}
+
+function showTab(week, tab) {
+  const view = document.getElementById('week-' + week);
+  view.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  view.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  const tabEl = view.querySelector('[onclick*="' + tab + '"]');
+  if (tabEl) tabEl.classList.add('active');
+  const contentEl = document.getElementById('w' + week + '-' + tab);
+  if (contentEl) contentEl.classList.add('active');
+}
+
+function toggleActivity(header) {
+  const card = header.closest('.activity-card');
+  card.classList.toggle('open');
+}
+
+function toggleCheck(item) {
+  item.classList.toggle('checked');
+}
+</script>
+</body>
+</html>
