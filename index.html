@@ -7,6 +7,33 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
+    --bg: #f9f8f6;
+    --bg2: #ffffff;
+    --bg3: #f2f0eb;
+    --bg4: #e8e5de;
+    --border: rgba(0,0,0,0.07);
+    --border2: rgba(0,0,0,0.13);
+    --text: #1a1917;
+    --text2: #5c5a54;
+    --text3: #9e9b92;
+    --accent: #7c5c2e;
+    --accent2: #a07840;
+    --teal: #0f6e56;
+    --teal-bg: rgba(15,110,86,0.07);
+    --teal-border: rgba(15,110,86,0.18);
+    --purple: #4a3fa0;
+    --purple-bg: rgba(74,63,160,0.07);
+    --purple-border: rgba(74,63,160,0.18);
+    --coral: #993c1d;
+    --coral-bg: rgba(153,60,29,0.07);
+    --coral-border: rgba(153,60,29,0.18);
+    --amber: #854f0b;
+    --amber-bg: rgba(133,79,11,0.07);
+    --amber-border: rgba(133,79,11,0.18);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  .dark {
     --bg: #0f0f0e;
     --bg2: #171714;
     --bg3: #1e1e1a;
@@ -30,8 +57,6 @@
     --amber: #e8b96a;
     --amber-bg: rgba(232,185,106,0.08);
     --amber-border: rgba(232,185,106,0.2);
-    --radius: 10px;
-    --radius-sm: 6px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 15px; }
@@ -111,8 +136,14 @@
   .tag-ind { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
   .tag-checkin { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
   .tl-card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
-  .tl-card.sync .tl-card-desc { color: rgba(168,155,232,0.75); }
-  .tl-card.checkin .tl-card-desc { color: rgba(94,207,176,0.75); }
+  .tl-card.sync .tl-card-desc { color: var(--purple); opacity: 0.8; }
+  .tl-card.checkin .tl-card-desc { color: var(--teal); opacity: 0.8; }
+
+  /* Mode toggle */
+  .mode-toggle { display: flex; align-items: center; gap: 8px; padding: 10px 24px 16px; }
+  .mode-btn { display: flex; align-items: center; gap: 6px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text3); background: var(--bg3); border: 1px solid var(--border2); border-radius: 20px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.03em; }
+  .mode-btn:hover { color: var(--text2); background: var(--bg4); }
+  .mode-icon { font-size: 13px; }
 
   /* Activity cards */
   .activity-section { margin-bottom: 32px; }
@@ -168,28 +199,33 @@
   /* Tier cards */
   .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
   .tier-card { border-radius: var(--radius-sm); padding: 14px; border: 1px solid; }
-  .tier-foundation { background: rgba(59,107,17,0.1); border-color: rgba(97,169,25,0.2); }
+  .tier-foundation { background: rgba(59,107,17,0.07); border-color: rgba(59,107,17,0.18); }
   .tier-core { background: var(--teal-bg); border-color: var(--teal-border); }
   .tier-advanced { background: var(--purple-bg); border-color: var(--purple-border); }
   .tier-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
-  .tl-foundation { color: #7dc442; }
+  .tl-foundation { color: #3b6b11; }
   .tl-core { color: var(--teal); }
   .tl-advanced { color: var(--purple); }
   .tier-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-  .tc-foundation { color: #a8d97a; }
+  .tc-foundation { color: #3b6b11; }
   .tc-core { color: var(--teal); }
   .tc-advanced { color: var(--purple); }
   .tier-desc { font-size: 12px; line-height: 1.55; }
-  .td-foundation { color: rgba(168,217,122,0.7); }
-  .td-core { color: rgba(94,207,176,0.7); }
-  .td-advanced { color: rgba(168,155,232,0.7); }
+  .td-foundation { color: rgba(59,107,17,0.75); }
+  .td-core { color: var(--teal); }
+  .td-advanced { color: var(--purple); }
+  .dark .tl-foundation { color: #7dc442; }
+  .dark .tc-foundation { color: #a8d97a; }
+  .dark .td-foundation { color: rgba(168,217,122,0.7); }
+  .dark .td-core { color: rgba(94,207,176,0.7); }
+  .dark .td-advanced { color: rgba(168,155,232,0.7); }
 
   /* Callout */
   .callout { border-radius: var(--radius-sm); padding: 12px 14px; margin: 12px 0; font-size: 13px; line-height: 1.6; }
-  .callout-teal { background: var(--teal-bg); border: 1px solid var(--teal-border); color: rgba(94,207,176,0.8); }
-  .callout-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: rgba(232,185,106,0.8); }
-  .callout-purple { background: var(--purple-bg); border: 1px solid var(--purple-border); color: rgba(168,155,232,0.8); }
-  .callout-coral { background: var(--coral-bg); border: 1px solid var(--coral-border); color: rgba(232,131,106,0.8); }
+  .callout-teal { background: var(--teal-bg); border: 1px solid var(--teal-border); color: var(--teal); }
+  .callout-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: var(--amber); }
+  .callout-purple { background: var(--purple-bg); border: 1px solid var(--purple-border); color: var(--purple); }
+  .callout-coral { background: var(--coral-bg); border: 1px solid var(--coral-border); color: var(--coral); }
   .callout strong { color: var(--text); font-weight: 500; }
 
   /* Deliverables */
@@ -237,8 +273,8 @@
   .regroup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
   .rg-card { background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: var(--radius-sm); padding: 12px 14px; }
   .rg-time { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--purple); margin-bottom: 4px; }
-  .rg-title { font-size: 13px; font-weight: 500; color: rgba(168,155,232,0.9); margin-bottom: 4px; }
-  .rg-desc { font-size: 12px; color: rgba(168,155,232,0.65); line-height: 1.5; }
+  .rg-title { font-size: 13px; font-weight: 500; color: var(--purple); margin-bottom: 4px; }
+  .rg-desc { font-size: 12px; color: var(--purple); opacity: 0.75; line-height: 1.5; }
 
   code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--bg4); padding: 1px 6px; border-radius: 4px; color: var(--accent); border: 1px solid var(--border); }
 
@@ -302,6 +338,11 @@
         </div>
       </div>
     </nav>
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="toggleMode()" id="modeBtn">
+        <span class="mode-icon">🌙</span> Dark mode
+      </button>
+    </div>
     <div class="sidebar-footer">
       <div class="progress-label">0 / 5 weeks complete</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -562,7 +603,7 @@
           <span class="badge-sprint">Sprint 1 · Week 2</span>
         </div>
         <h1 class="week-title">Figma MCP Server<br>+ <code style="font-size:28px">use_figma</code></h1>
-        <p class="week-goal">Go deep on how the Figma MCP server actually works at enterprise scale — data flow, auth, what it can and can't access, and how it fits into a complex org's existing toolchain. The goal is being able to hold a precise technical conversation with a platform architect who has already read the docs, and articulate clearly what Figma brings to the AI workflow.</p>
+        <p class="week-goal">Go deep on how the Figma MCP server works and — critically — map out exactly what the <code>use_figma</code> tool surface exposes and where it falls short. By the end of today you should be able to look at a real output quality problem and know which tool to investigate first. Week 3 will put you in a customer situation that requires precisely that.</p>
       </div>
 
       <div class="tabs">
@@ -578,16 +619,8 @@
             <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Frame the three questions this week needs to answer: How does it work? What can and can't it see? How does it fail? Orient to tier tracks for the day.</div></div></div>
           </div>
           <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Deep dive — how the server works</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Watch resources, inspect raw tool call payloads, compare remote vs local setup. Post first finding to FigJam before check-in.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
-            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator highlights 2–3 findings from FigJam. Surfaces any disagreements. Reorients for block 2.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Customer use cases + hard questions</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Walk through real customer use cases. Prepare answers to the 4 hard technical questions. Add second finding + "one thing I'd tell a customer" to FigJam by 12:15.</div></div></div>
+            <div class="tl-time"><div class="tl-time-text">9:15–12:30</div><div class="tl-time-dur">195 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Deep dive — independent work</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Watch resources, inspect raw tool call payloads, compare remote vs local setup, walk through customer use cases, and prepare answers to the hard technical questions. Add your findings to FigJam as you go — at least two entries before the regroup.</div></div></div>
           </div>
           <div class="tl-block">
             <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
@@ -613,29 +646,23 @@
                 <div class="video-item">
                   <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
                   <div class="video-info">
-                    <div class="video-title"><a href="https://www.youtube.com/watch?v=kQmXtCRpjBE" target="_blank">Figma MCP Collection: How to Set Up the Remote MCP Server (Official)</a></div>
-                    <div class="video-dur">~10 min · Start here · Official setup walkthrough</div>
+                    <div class="video-title"><a href="https://www.youtube.com/watch?v=yigVkI6LM-M" target="_blank">Figma MCP collection: How to set up the remote MCP server (Official)</a></div>
+                    <div class="video-dur">~10 min · Start here · Official Figma walkthrough for remote server setup</div>
                   </div>
                 </div>
                 <div class="video-item">
                   <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
                   <div class="video-info">
-                    <div class="video-title"><a href="https://www.youtube.com/watch?v=AhAINPRmHQ0" target="_blank">Figma MCP Server — VS Code + Cursor Setup</a></div>
-                    <div class="video-dur">~12 min · Local setup via IDE · Compare to claude.ai path</div>
-                  </div>
-                </div>
-                <div class="video-item">
-                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
-                  <div class="video-info">
-                    <div class="video-title"><a href="https://www.youtube.com/watch?v=MYs3O7C88nc" target="_blank">MCP Transports Explained — SSE vs stdio</a></div>
-                    <div class="video-dur">~18 min · Technical depth · Essential for answering customer infra questions</div>
+                    <div class="video-title"><a href="https://help.figma.com/hc/en-us/articles/35281186390679" target="_blank">Figma MCP collection: How to set up the desktop MCP server (Help Center)</a></div>
+                    <div class="video-dur">Covers VS Code, Cursor, and Claude Code setup · Use alongside the remote server video to compare both paths</div>
                   </div>
                 </div>
               </div>
               <div class="docs-section">
                 <div class="docs-label">Reading & Docs</div>
                 <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://help.figma.com/hc/en-us/articles/39216419318551-Get-started-with-the-Figma-MCP-server" target="_blank">Get Started with Figma MCP Server (Help Center)</a><div class="doc-note">Official setup guide — remote and local paths</div></div></div>
-                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">MCP Transports — Official Docs</a><div class="doc-note">SSE vs stdio — read before trying to explain auth to a customer</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/" target="_blank">Remote Server Installation — Figma Developer Docs</a><div class="doc-note">Technical reference for VS Code, Cursor, and Claude Code setup — more detailed than the Help Center guide</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">MCP Transports — Official Docs (SSE vs stdio)</a><div class="doc-note">Read before trying to explain auth or infrastructure to an enterprise customer</div></div></div>
                 <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.figma.com/developers/api" target="_blank">Figma REST API Reference</a><div class="doc-note">Know this well enough to explain how MCP differs from it</div></div></div>
               </div>
               <div class="step-list">
@@ -687,34 +714,77 @@
           </div>
         </div>
 
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">The <code>use_figma</code> tool surface — what each tool exposes and where it falls short</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">must-have</span><span class="activity-duration">~60 min</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">This is the technical layer that Week 3 will require you to reason about live. Work through each tool, understand what it returns, test it against a real design system file, and document where the coverage is clean and where it isn't.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>List all available tools.</strong> Open your Figma MCP connection and ask Claude: <em>"What tools do you have available from the Figma MCP server? List them all with a one-line description of what each returns."</em> Save this list — it's your reference for the rest of the day and for Week 3.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Test <code>get_local_variables</code> against a design token file.</strong> Use the team SDS or any Figma file with a published variable library. Ask Claude to extract all spacing, color, and typography tokens. Inspect what comes back: are variable names present? Are values resolved or referenced? Is the structure usable in a code prompt? This is the tool most likely to cause output quality issues with design tokens.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Compare <code>get_styles</code> vs <code>get_local_variables</code>.</strong> Run both against the same file. What does each return that the other doesn't? A design system using Figma's legacy styles responds differently from one using the newer variable library. Document which coverage matters for which customer setup — this is a distinction you'll need to explain live in Week 3.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Test <code>get_components</code> for component structure fidelity.</strong> Ask Claude to extract a component that has variants, auto-layout, and nested instances. What does it surface about the component's structure? What does it miss — variant properties, constraint settings, layout grid, prototype links? Document the gaps. These are the things a front-end engineer will ask about.</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Find the limits.</strong> Try to get Claude to surface layout grid settings, auto-layout gap values, prototype flow connections, or component set variant definitions via MCP. What works? What returns nothing or approximates? Write down the honest list of what <code>use_figma</code> doesn't surface today — you'll need this in Week 3 to diagnose a real customer issue.</div></div>
+                <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Test a real code generation prompt end-to-end.</strong> Pick a component from the SDS. Ask Claude to generate a React implementation using the design token values from the file. Compare the output to the actual component — did spacing tokens get applied correctly? Were color variables referenced by name or hardcoded? Where did the output drift from the design? This is exactly what Week 3's engineer, Dana, ran into.</div></div>
+              </div>
+              <div class="tier-grid">
+                <div class="tier-card tier-foundation">
+                  <div class="tier-label tl-foundation">Foundation</div>
+                  <div class="tier-title tc-foundation">Steps 1–3</div>
+                  <div class="tier-desc td-foundation">List all tools, test get_local_variables, and document the difference between styles and variables output.</div>
+                </div>
+                <div class="tier-card tier-core">
+                  <div class="tier-label tl-core">Core</div>
+                  <div class="tier-title tc-core">Steps 1–5</div>
+                  <div class="tier-desc td-core">Map the full tool surface including component structure gaps. Build your honest list of what use_figma doesn't surface.</div>
+                </div>
+                <div class="tier-card tier-advanced">
+                  <div class="tier-label tl-advanced">Advanced</div>
+                  <div class="tier-title tc-advanced">Steps 1–6</div>
+                  <div class="tier-desc td-advanced">Run a full end-to-end code generation test. Compare the output to the source design and document exactly where and why it drifted.</div>
+                </div>
+              </div>
+              <div class="callout callout-teal" style="margin-top:12px">
+                <strong>Why this matters for Week 3:</strong> You'll be asked to diagnose a real pilot where a front-end engineer found layout and spacing token gaps in the output. If you know what <code>get_local_variables</code> returns under different conditions, you can answer that question precisely. If you don't, you'll be guessing.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="activity-section">
-          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="activity-section-title">FigJam — Add Before 12:30</div>
           <div class="figjam-card">
             <div class="figjam-label">📋 Required prompts</div>
-            <div class="fj-prompt">Something the Figma MCP server surfaces that gives Claude a meaningful advantage over working without it — and a specific example:</div>
-            <div class="fj-prompt">Something it can't yet access that enterprise customers will ask about — and how I'd handle that question:</div>
-            <div class="fj-prompt">A failure mode I hit and how I'd walk a customer through diagnosing it:</div>
-            <div class="fj-prompt">The clearest way I can explain what Figma adds to an AI workflow — in one sentence, to a platform architect:</div>
+            <div class="fj-prompt">The full list of use_figma tools I found — and one thing each one surfaces that I didn't expect:</div>
+            <div class="fj-prompt">What get_local_variables returned against a real design system file — and whether the spacing/color tokens were in a format Claude could actually use in a code prompt:</div>
+            <div class="fj-prompt">The honest gap list — things I tried to get via use_figma that came back empty, partial, or inaccurate:</div>
+            <div class="fj-prompt">What happened when I ran a real end-to-end code generation — where the output matched the design and where it drifted:</div>
           </div>
         </div>
       </div>
 
       <div class="tab-content" id="w2-deliverables">
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Objection response doc</div><div class="deliverable-type">Optional · async · feeds team knowledge base</div></div></div>
-          <div class="deliverable-desc">Write your prepared responses to all 5 hard questions as a reference doc. These should be the answers you'd want in front of you before a technical discovery call with a platform architect. Specific, honest, one level deeper than the surface answer.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">use_figma tool reference doc</div><div class="deliverable-type">Optional · async · useful in Week 3</div></div></div>
+          <div class="deliverable-desc">Write a reference doc mapping each <code>use_figma</code> tool to what it returns, what it misses, and when you'd use it. Include the gap list — things the tool doesn't surface today. Written concisely enough that you could share it with a customer's engineering team or use it yourself in a technical discovery call.</div>
         </div>
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Live technical demo Loom</div><div class="deliverable-type">Optional · async</div></div></div>
-          <div class="deliverable-desc">5-minute Loom: demo the Figma MCP server live in claude.ai against a realistic enterprise Figma file. Show component context extraction, design token visibility, and multi-tool orchestration. Narrate as if a staff architect is watching and will ask about data flow.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — end-to-end tool surface walkthrough</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">5-minute Loom showing <code>get_local_variables</code>, <code>get_styles</code>, and <code>get_components</code> in action against a real design system file, followed by a code generation test. Show what comes back from each tool, narrate the differences, and call out where the output drifted from the source design and why. Watchable by a front-end engineer who has never seen MCP before.</div>
         </div>
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check — Week 3 readiness</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
           <div class="deliverable-items">
-            <div class="deliverable-item"><div class="di-dot"></div><span>Can you articulate what Figma + MCP gives Claude that Claude alone doesn't have — specifically enough that a senior engineer would find it credible?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain what the MCP server sends to Claude and where that data goes — accurately enough that a security team wouldn't have follow-up questions?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Have you set up the server both remotely (claude.ai) and locally (VS Code) and intentionally broken it?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain the role of Figma in an AI-assisted workflow at enterprise scale — not as a handoff tool, but as a source of structured context?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you list every tool <code>use_figma</code> exposes and say in one sentence what each one returns — without looking it up?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Do you know the difference between what <code>get_styles</code> and <code>get_local_variables</code> return, and which one a design system using Figma's variable library will rely on?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you run a real end-to-end code generation and identified specifically where and why the output drifted from the design?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Do you have a clear, honest gap list — the things <code>use_figma</code> doesn't surface today that a front-end engineer would expect it to?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>If a customer's engineer told you "spacing tokens aren't being applied correctly in the output" — do you know which tool to look at first and what to check?</span></div>
           </div>
         </div>
       </div>
@@ -744,16 +814,8 @@
             <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff — read the brief</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Facilitator distributes the customer scenario. Everyone reads it. Facilitator takes 3 clarifying questions — nothing more. After that, you're working independently.</div></div></div>
           </div>
           <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Problem framing + approach design</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the customer problem. Decide which tools to use and why. Design your approach. Start building. Post your problem framing to FigJam before check-in.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
-            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator notes different approaches from FigJam. Not a debrief — just awareness that people are taking different paths. Back to work.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Build + prepare to present</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Finish your solution. Prepare a 3-minute presentation as if the customer is in the room. Add solution summary + tradeoffs to FigJam by 12:15.</div></div></div>
+            <div class="tl-time"><div class="tl-time-text">9:15–12:30</div><div class="tl-time-dur">195 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Problem framing, build + prepare to present</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the problem. Diagnose the technical issues. Design your approach and build your solution. Add your problem framing and approach to FigJam as you go. By 12:15 have your solution summary and key tradeoffs in FigJam.</div></div></div>
           </div>
           <div class="tl-block">
             <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
@@ -765,14 +827,14 @@
       <div class="tab-content" id="w3-activities">
         <div class="scenario-card">
           <div class="scenario-label">Customer Scenario — Week 3</div>
-          <div class="scenario-text">You're three weeks into an enterprise expansion deal at a 6,000-person financial services company. They're a strong Figma org — 200 designers, an established design system, and 40+ product teams. The SC on the original deal flagged that the VP of Platform Engineering, Raj, has become a blocker. Raj's team owns the front-end platform that all 40 product teams build on. In a recent exec QBR, Raj said two things: first, that his engineers have started prototyping directly in React using Claude and Cursor, and several teams have stopped using Figma as a handoff layer entirely. Second, that he evaluated Make and found the output quality "not production-ready" — his lead engineer ran a side-by-side with Claude Code and Make lost on fidelity, token accuracy, and component adherence.<br><br>You have a 45-minute call with Raj and his lead platform engineer, Sonia, next Tuesday. The account exec wants you to "re-establish the value of Figma in the AI workflow." Raj is not hostile — he's pragmatic. He'll engage honestly if you do. What do you do with these 45 minutes, and what do you actually show them?</div>
+          <div class="scenario-text">You're working an expansion deal at a 4,500-person healthcare technology company. They have a large Figma org — 150 designers across 6 product lines — and recently went through a design system consolidation. Their Head of Design, Priya, has been championing AI tooling internally and got approval to pilot Figma MCP with a small group of designers and front-end engineers.<br><br>Three weeks into the pilot, Priya sends you a note before your check-in call. She's flagged two things. First, the designer on the pilot, Marcus, tried to set up <code>use_figma</code> independently and got stuck for most of a morning — the setup process was complex enough that he nearly gave up, and he's now skeptical that the rest of the design team will bother at all. Second, a front-end engineer on the team, Dana, tested the MCP integration in VS Code and found that the layout output had consistency issues — components weren't aligning to the design system grid, and spacing tokens weren't being applied correctly. Dana's conclusion was that the quality gap between what the MCP server surfaces and what ends up in code is "still too manual to be worth it."<br><br>Priya is still a believer, but she needs to go back to her VP next week and justify continuing the pilot. You have 45 minutes with Priya, Marcus, and Dana. What do you do — and what do you actually show?</div>
           <div class="scenario-prompts">
             <div class="scenario-prompts-label">Debrief prompts for the regroup</div>
-            <div class="sp-item"><div class="di-dot"></div><span>Did you try to re-sell Figma as a design tool — or did you meet Raj where he is and talk about what Figma adds at platform scale that code-first prototyping doesn't solve?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>How did you handle the Make quality objection — did you concede it, reframe it, or demonstrate something that changed the framing?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>What would Sonia (the lead engineer) need to see to walk away convinced — and is that different from what Raj needs?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>If the Figma MCP server was the centerpiece of your demo — did it actually address Raj's concerns, or did it just show a cool feature?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>What's the honest version of this conversation — where would you tell Raj Figma genuinely adds value, and where would you acknowledge the limits?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>Which specific <code>use_figma</code> tool is responsible for surfacing spacing tokens — and did it return the variable values Dana's prompt needed? Walk through what you found.</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>Is the layout consistency issue a <code>get_local_variables</code> coverage problem, a prompt construction problem, or a gap in what <code>use_figma</code> surfaces about layout grids and auto-layout? What's your evidence?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What did you find when you went through the Figma MCP setup from scratch? Where specifically does it get hard for a non-technical user, and what's missing from the current documentation?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What's the difference between what <code>get_styles</code> returns vs <code>get_local_variables</code> — and which one matters for this customer's design system setup?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What are the honest limits of what <code>use_figma</code> surfaces today — the things you'd tell Priya are genuine product gaps vs things that can be fixed with better prompting or file configuration?</span></div>
           </div>
         </div>
 
@@ -781,54 +843,59 @@
           <div class="activity-card open">
             <div class="activity-header" onclick="toggleActivity(this)">
               <div class="activity-header-left">
-                <div class="activity-title">Framework — don't defend Figma, understand Raj's actual problem</div>
+                <div class="activity-title">Framework — three separate problems, one 45-minute call</div>
                 <div class="activity-meta"><span class="activity-tag tag-primary">read first</span></div>
               </div>
               <div class="activity-chevron">▾</div>
             </div>
             <div class="activity-body">
-              <div class="activity-desc">The instinct in this scenario is to re-sell Figma. That's the wrong move with a stakeholder like Raj. Work through these before you decide what to build or show.</div>
+              <div class="activity-desc">Before you think about the customer call, you need to understand what's actually happening technically. Work through each of these before deciding what to build or show.</div>
               <div class="step-list">
-                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>What problem is Raj actually solving?</strong> His engineers are faster without Figma in the loop. That's a real observation, not a misconception. What does Figma genuinely add at a 6,000-person org with 40 product teams that code-first prototyping doesn't? Be honest about this before the call.</div></div>
-                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>What did Make lose on in his engineer's test?</strong> Fidelity, token accuracy, component adherence — these are specific. Don't dismiss them. Understand what conditions produced those results and whether the Figma MCP server changes any of them.</div></div>
-                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>What does Sonia need vs what Raj needs?</strong> Raj needs a platform-level answer. Sonia needs a technical one she can verify herself. These require different things from you in the same 45 minutes.</div></div>
-                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>What's your honest position?</strong> There are things Figma + MCP does better than Claude alone. There are also things where the gap is real. Where would you tell Raj Figma genuinely wins — and where would you acknowledge the limits rather than paper over them?</div></div>
-                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Now build your 45 minutes.</strong> Discovery, demo, or workshop? What specifically would you show with the Figma MCP server that addresses what Raj actually raised — not just what looks impressive?</div></div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Understand what tools <code>use_figma</code> actually exposes.</strong> Open your Figma MCP connection and ask Claude: <em>"What tools do you have available from the Figma MCP server? List them all."</em> You'll see a set of specific tools — things like <code>get_file</code>, <code>get_node</code>, <code>get_components</code>, <code>get_styles</code>, <code>get_local_variables</code>. Know what each one returns and what it doesn't. Dana's spacing token problem almost certainly traces to one of these.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Diagnose the token gap specifically.</strong> Use <code>get_local_variables</code> against a Figma file that has published design tokens. Inspect what comes back — are the spacing variables present? Are they in a format Claude can reason about? Then run the same layout prompt Dana used and check whether the output references variable names or hardcodes values. That tells you if this is a data surfacing problem or a prompt problem.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Test <code>get_styles</code> vs <code>get_local_variables</code> for token coverage.</strong> These two tools return different things. Styles covers text styles, fills, and effects. Variables covers the token system. A design system that uses Figma's variable library will respond differently from one that still uses legacy styles. Know which one this customer's system uses and what that means for output.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Understand what <code>use_figma</code> doesn't surface at all.</strong> Layout grids, auto-layout constraints, component set variant definitions, and prototype connections are areas where the MCP context is limited or absent today. If Dana's layout consistency issue is about grid alignment, that may not be a prompt problem — it may be a genuine gap in what the tool surfaces. Know the difference before you get on the call.</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Reproduce Marcus's setup experience yourself — from scratch.</strong> Open the Figma MCP getting started guide as if you've never done this before. Time how long it takes to get a working connection. Where does it get complicated? What's missing from the docs? You can't help Marcus until you've felt the friction yourself.</div></div>
+                <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Now design the 45 minutes.</strong> You have a technical answer for Dana (what the tool surfaces, what it doesn't, what conditions produce clean output), a practical path for Marcus (a setup you can walk through in 10 minutes), and an honest assessment for Priya. Structure the call around all three.</div></div>
               </div>
-              <div class="callout callout-coral">
-                <strong>The trap to avoid:</strong> Showing a Figma MCP demo that is technically impressive but doesn't address the Make quality objection or the code-first workflow shift. Raj will notice. Sonia definitely will. The demo has to connect directly to what they said.
+              <div class="callout callout-teal">
+                <strong>The technical question that matters most:</strong> Is Dana's layout and spacing token gap because the design system's variables aren't being surfaced by <code>get_local_variables</code>, or because the prompt isn't referencing them correctly, or because the file's variable library isn't published? Each of those has a different fix. Know which it is.
+              </div>
+              <div class="callout callout-amber" style="margin-top:8px">
+                <strong>Context from the team's last session:</strong> The group flagged that the Figma MCP getting started documentation needs significant improvement. Marcus may have run directly into that gap. As an SC, you should know exactly where the docs fall short and have your own setup resources ready to fill the gap.
               </div>
             </div>
           </div>
         </div>
 
         <div class="activity-section">
-          <div class="activity-section-title">FigJam — Add Before 12:15</div>
+          <div class="activity-section-title">FigJam — Add Before 12:30</div>
           <div class="figjam-card">
             <div class="figjam-label">📋 Required prompts</div>
-            <div class="fj-prompt">My honest answer to: what does Figma genuinely add at enterprise scale that code-first prototyping doesn't solve? (Not the pitch — the real answer):</div>
-            <div class="fj-prompt">How I addressed the Make quality objection — did I concede, reframe, or demonstrate something different?</div>
-            <div class="fj-prompt">What I would show Sonia (the engineer) vs what I'd show Raj (the VP) — and why they're different:</div>
-            <div class="fj-prompt">The one thing I couldn't answer confidently and how I'd find out before the real meeting:</div>
+            <div class="fj-prompt">Which use_figma tool I'd use to diagnose Dana's spacing token issue — and what I found when I tested it:</div>
+            <div class="fj-prompt">The specific gap I found between what use_figma surfaces and what Dana's prompt needed — and whether it's a tool limitation or a fixable condition:</div>
+            <div class="fj-prompt">What I found when I went through the Figma MCP setup from scratch — where it breaks down for a non-technical user and what's missing from the docs:</div>
+            <div class="fj-prompt">The honest limits of use_figma today — what I'd tell Priya is a real product gap vs what's solvable with better prompting or file configuration:</div>
           </div>
         </div>
       </div>
 
       <div class="tab-content" id="w3-deliverables">
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Pre-call plan</div><div class="deliverable-type">Optional · async</div></div></div>
-          <div class="deliverable-desc">Write the pre-call plan you'd send to the account exec before Tuesday's call with Raj and Sonia. What's the goal of the call, what are the two or three things you need to learn in discovery, what will you show and in what order, and what's your ask at the end. Treat it as a real document you'd actually send.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Technical diagnosis doc</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Write a 1-page technical breakdown of what's causing Dana's output quality issues — which <code>use_figma</code> tools are involved, what they return, what they don't, and what the fix is. Written as something you'd actually send to a customer's engineering team.</div>
         </div>
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — the 45-minute call</div><div class="deliverable-type">Optional · async</div></div></div>
-          <div class="deliverable-desc">Record your version of the 45-minute call as a 5-minute Loom. Show what you'd demo with the Figma MCP server, narrate how you'd handle the Make quality objection live, and explain how you're addressing Sonia's concerns vs Raj's. This should feel like a real customer recording, not a product demo.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — technical walkthrough</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Record a 5-minute Loom showing the specific <code>use_figma</code> tools in action against a real design system file — <code>get_local_variables</code>, <code>get_styles</code>, and the output differences between them. Narrate what Dana would have seen and what you'd do differently. Should be watchable by a front-end engineer who has never seen MCP before.</div>
         </div>
         <div class="deliverable-card">
           <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
           <div class="deliverable-items">
-            <div class="deliverable-item"><div class="di-dot"></div><span>Does your approach actually address what Raj raised — or does it sidestep the Make quality objection and the code-first workflow concern?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Can you say something honest and specific about where Figma + MCP wins vs where Claude alone is genuinely competitive?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Would Sonia — a skeptical lead engineer — find your technical answers credible, or would she have follow-up questions you can't answer?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you list the tools <code>use_figma</code> exposes and say specifically what each one returns — without looking it up?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Do you know the difference between what <code>get_styles</code> and <code>get_local_variables</code> return, and when each one matters for design token output?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you reproduced Dana's issue yourself and confirmed whether it's a tool coverage gap or a solvable prompt/config problem?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Could you walk Marcus through a working <code>use_figma</code> setup in 10 minutes, having gone through it from scratch yourself first?</span></div>
           </div>
         </div>
       </div>
@@ -858,16 +925,8 @@
             <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Frame the three surfaces and what "works" means in a customer context: output quality, reliability, dev effort after. Orient to tier tracks. Everyone tests all three surfaces — depth varies by tier.</div></div></div>
           </div>
           <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Testing block 1 — Kits + Templates</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Work through Make Kits and Templates. Run the 3 cross-cutting test cases. Post first finding to FigJam before check-in.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
-            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator reads the FigJam. Calls out 1–2 disagreements or surprises so far. Back to work.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:10–12:30</div><div class="tl-time-dur">80 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Testing block 2 — npm packages</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Test npm package integration — at least one clean package and one messy/underdocumented one. Add second finding + customer advice to FigJam by 12:15.</div></div></div>
+            <div class="tl-time"><div class="tl-time-text">9:15–12:30</div><div class="tl-time-dur">195 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Testing — all three surfaces</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Work through Make Kits, Templates, and npm packages. Run the 3 cross-cutting test cases against all surfaces. Add findings to FigJam as you go — at least two entries before the regroup.</div></div></div>
           </div>
           <div class="tl-block">
             <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
@@ -1059,20 +1118,8 @@
             <div class="tl-body"><div class="tl-card sync"><div class="tl-card-header"><span class="tl-card-title">Kickoff — brief + artifact assignments</span><span class="tl-tag tag-sync">sync</span></div><div class="tl-card-desc">Distribute the scenario. Assign artifact ownership: who leads the field guide, the FigJam findings board, and the demo kit. These get built during the session — not after.</div></div></div>
           </div>
           <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">9:15–11:00</div><div class="tl-time-dur">105 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Problem framing + solution build</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the customer problem. Select your approach. Build your solution. Artifact owners start pulling findings from Week 4 FigJam into their draft.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:00–11:10</div><div class="tl-time-dur">10 min</div></div>
-            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Mid-session check-in</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">Facilitator checks artifact progress. Are owners building or waiting? Unblock anything. Back to work.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">11:10–12:15</div><div class="tl-time-dur">65 min</div></div>
-            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Finalize solutions + build artifacts</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Wrap your customer solution. Artifact owners finalize drafts. Everyone reviews the field guide draft and adds any missing findings by 12:15.</div></div></div>
-          </div>
-          <div class="tl-block">
-            <div class="tl-time"><div class="tl-time-text">12:15–12:30</div><div class="tl-time-dur">15 min</div></div>
-            <div class="tl-body"><div class="tl-card checkin"><div class="tl-card-header"><span class="tl-card-title">Artifact review — everyone reads the field guide</span><span class="tl-tag tag-checkin">light sync</span></div><div class="tl-card-desc">15 minutes to read and react before the regroup. Add comments or corrections directly in the doc.</div></div></div>
+            <div class="tl-time"><div class="tl-time-text">9:15–12:30</div><div class="tl-time-dur">195 min</div></div>
+            <div class="tl-body"><div class="tl-card"><div class="tl-card-header"><span class="tl-card-title">Solution build + artifact construction</span><span class="tl-tag tag-ind">self-paced</span></div><div class="tl-card-desc">Frame the problem, build your solution, and construct the three team artifacts in parallel. Artifact owners should have drafts in progress by 11:30. Everyone reviews the field guide draft and adds missing findings by 12:15.</div></div></div>
           </div>
           <div class="tl-block">
             <div class="tl-time"><div class="tl-time-text">12:30–1:00</div><div class="tl-time-dur">30 min</div></div>
@@ -1183,6 +1230,23 @@
 </div>
 
 <script>
+function toggleMode() {
+  const body = document.body;
+  const btn = document.getElementById('modeBtn');
+  const isDark = body.classList.toggle('dark');
+  btn.innerHTML = isDark ? '<span class="mode-icon">☀️</span> Light mode' : '<span class="mode-icon">🌙</span> Dark mode';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+(function() {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('modeBtn');
+      if (btn) btn.innerHTML = '<span class="mode-icon">☀️</span> Light mode';
+    });
+  }
+})();
 function showWeek(n) {
   document.querySelectorAll('.week-view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
