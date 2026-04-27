@@ -76,7 +76,9 @@
   .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; margin-bottom: 2px; border: 1px solid transparent; }
   .nav-item:hover { background: var(--bg3); }
   .nav-item.active { background: var(--bg4); border-color: var(--border2); }
-  .nav-week-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; flex-shrink: 0; }
+  .nav-week-num { width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nav-week-num .wk-label { font-size: 8px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; margin-bottom: 1px; color: inherit; opacity: 0.7; }
+  .nav-week-num .wk-num { font-size: 14px; font-family: 'DM Mono', monospace; font-weight: 500; line-height: 1; color: inherit; }
   .nav-week-text { flex: 1; }
   .nav-week-title { font-size: 12px; font-weight: 400; color: var(--text); line-height: 1.3; }
   .nav-week-type { font-size: 10px; color: var(--text3); margin-top: 1px; }
@@ -298,22 +300,22 @@
     <nav class="sidebar-nav">
       <div class="sprint-group">
         <div class="sprint-label">Sprint 1 — MCP Foundations</div>
-        <div class="nav-item type-setup active" onclick="showWeek(1)">
-          <div class="nav-week-num">1</div>
+        <div class="nav-item type-setup" onclick="showWeek(1)">
+          <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">1</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Environment Setup + MCP Mental Model</div>
             <div class="nav-week-type">Setup week</div>
           </div>
         </div>
         <div class="nav-item type-foundations" onclick="showWeek(2)">
-          <div class="nav-week-num">2</div>
+          <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">2</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Figma MCP Server + use_figma</div>
             <div class="nav-week-type">Deep dive</div>
           </div>
         </div>
-        <div class="nav-item type-open" onclick="showWeek(3)">
-          <div class="nav-week-num">3</div>
+        <div class="nav-item type-open active" onclick="showWeek(3)">
+          <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">3</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Customer Scenario — MCP Applied</div>
             <div class="nav-week-type">Open-ended</div>
@@ -323,14 +325,14 @@
       <div class="sprint-group">
         <div class="sprint-label">Sprint 2 — Figma AI Features</div>
         <div class="nav-item type-foundations" onclick="showWeek(4)">
-          <div class="nav-week-num">4</div>
+          <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">4</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Make — Pressure Testing</div>
             <div class="nav-week-type">Deep dive</div>
           </div>
         </div>
         <div class="nav-item type-open" onclick="showWeek(5)">
-          <div class="nav-week-num">5</div>
+          <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">5</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Customer Scenario — Make Applied</div>
             <div class="nav-week-type">Open-ended</div>
@@ -353,7 +355,7 @@
   <main class="main">
 
     <!-- ===== WEEK 1 ===== -->
-    <div class="week-view active" id="week-1">
+    <div class="week-view" id="week-1">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-setup">Setup Week</span>
@@ -791,7 +793,7 @@
     </div>
 
     <!-- ===== WEEK 3 ===== -->
-    <div class="week-view" id="week-3">
+    <div class="week-view active" id="week-3">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-open">Open-Ended</span>
@@ -827,14 +829,14 @@
       <div class="tab-content" id="w3-activities">
         <div class="scenario-card">
           <div class="scenario-label">Customer Scenario — Week 3</div>
-          <div class="scenario-text">You're working an expansion deal at a 4,500-person healthcare technology company. They have a large Figma org — 150 designers across 6 product lines — and recently went through a design system consolidation. Their Head of Design, Priya, has been championing AI tooling internally and got approval to pilot Figma MCP with a small group of designers and front-end engineers.<br><br>Three weeks into the pilot, Priya sends you a note before your check-in call. She's flagged two things. First, the designer on the pilot, Marcus, tried to set up <code>use_figma</code> independently and got stuck for most of a morning — the setup process was complex enough that he nearly gave up, and he's now skeptical that the rest of the design team will bother at all. Second, a front-end engineer on the team, Dana, tested the MCP integration in VS Code and found that the layout output had consistency issues — components weren't aligning to the design system grid, and spacing tokens weren't being applied correctly. Dana's conclusion was that the quality gap between what the MCP server surfaces and what ends up in code is "still too manual to be worth it."<br><br>Priya is still a believer, but she needs to go back to her VP next week and justify continuing the pilot. You have 45 minutes with Priya, Marcus, and Dana. What do you do — and what do you actually show?</div>
+          <div class="scenario-text">You're working an expansion deal at a 4,500-person healthcare technology company. They have a large Figma org — 150 designers across 6 product lines — and recently went through a design system consolidation. Their Head of Design, Priya, has been championing AI tooling internally and got approval to pilot Figma MCP with a small group of designers and front-end engineers.<br><br>Three weeks into the pilot, Priya sends you a note before your check-in call. She's flagged two things. First, the designer on the pilot, Marcus, tried to set up <code>use_figma</code> independently and got stuck for most of a morning — the setup process was complex enough that he nearly gave up, and he's now skeptical that the rest of the design team will bother at all. Second — and this is the one Priya is more worried about — the front-end engineer on the pilot, Dana, ran a compliance audit on the code generated during the pilot and found that a significant portion of components weren't using the approved design system tokens at all. Instead of referencing variables from the published token library, the output was hardcoding values — hex colors, pixel spacing, raw font sizes. Their design system governance policy requires all production code to reference approved tokens, and Dana's conclusion was that the MCP integration can't be used in production until this is resolved.<br><br>Priya is still a believer, but the compliance finding is a hard blocker. She needs to go back to her VP next week and either explain how this gets fixed, or recommend pausing the pilot. You have 45 minutes with Priya, Marcus, and Dana. What do you do — and what do you actually show?</div>
           <div class="scenario-prompts">
             <div class="scenario-prompts-label">Debrief prompts for the regroup</div>
-            <div class="sp-item"><div class="di-dot"></div><span>Which specific <code>use_figma</code> tool is responsible for surfacing spacing tokens — and did it return the variable values Dana's prompt needed? Walk through what you found.</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>Is the layout consistency issue a <code>get_local_variables</code> coverage problem, a prompt construction problem, or a gap in what <code>use_figma</code> surfaces about layout grids and auto-layout? What's your evidence?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>What did you find when you went through the Figma MCP setup from scratch? Where specifically does it get hard for a non-technical user, and what's missing from the current documentation?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>What's the difference between what <code>get_styles</code> returns vs <code>get_local_variables</code> — and which one matters for this customer's design system setup?</span></div>
-            <div class="sp-item"><div class="di-dot"></div><span>What are the honest limits of what <code>use_figma</code> surfaces today — the things you'd tell Priya are genuine product gaps vs things that can be fixed with better prompting or file configuration?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>Dana's compliance finding is specific: the output hardcoded values instead of referencing design system tokens. Which <code>use_figma</code> tool is responsible for surfacing the token library — and what conditions determine whether it returns usable variable references or nothing?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>Is this a <code>get_local_variables</code> coverage problem, a prompt construction problem, a Figma file configuration problem, or a genuine gap in what <code>use_figma</code> surfaces? What's your evidence — and does it change what you say to Priya?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>The compliance policy requires all production code to reference approved tokens. Can you demonstrate a setup where the MCP output meets that bar — or do you need to be honest that it can't yet?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>How did you address Marcus's setup experience — and is it connected to the token compliance issue, or a separate problem?</span></div>
+            <div class="sp-item"><div class="di-dot"></div><span>What do you help Priya say to her VP — and is it "here's how we fix it" or "here's why we pause, and what would need to change"?</span></div>
           </div>
         </div>
 
@@ -849,20 +851,20 @@
               <div class="activity-chevron">▾</div>
             </div>
             <div class="activity-body">
-              <div class="activity-desc">Before you think about the customer call, you need to understand what's actually happening technically. Work through each of these before deciding what to build or show.</div>
+              <div class="activity-desc">Before you think about the customer call, you need to understand what's actually happening technically. The compliance finding is specific — hardcoded values instead of token references. That's a diagnosable problem. Work through it before you decide what to say or show.</div>
               <div class="step-list">
-                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Understand what tools <code>use_figma</code> actually exposes.</strong> Open your Figma MCP connection and ask Claude: <em>"What tools do you have available from the Figma MCP server? List them all."</em> You'll see a set of specific tools — things like <code>get_file</code>, <code>get_node</code>, <code>get_components</code>, <code>get_styles</code>, <code>get_local_variables</code>. Know what each one returns and what it doesn't. Dana's spacing token problem almost certainly traces to one of these.</div></div>
-                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Diagnose the token gap specifically.</strong> Use <code>get_local_variables</code> against a Figma file that has published design tokens. Inspect what comes back — are the spacing variables present? Are they in a format Claude can reason about? Then run the same layout prompt Dana used and check whether the output references variable names or hardcodes values. That tells you if this is a data surfacing problem or a prompt problem.</div></div>
-                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Test <code>get_styles</code> vs <code>get_local_variables</code> for token coverage.</strong> These two tools return different things. Styles covers text styles, fills, and effects. Variables covers the token system. A design system that uses Figma's variable library will respond differently from one that still uses legacy styles. Know which one this customer's system uses and what that means for output.</div></div>
-                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Understand what <code>use_figma</code> doesn't surface at all.</strong> Layout grids, auto-layout constraints, component set variant definitions, and prototype connections are areas where the MCP context is limited or absent today. If Dana's layout consistency issue is about grid alignment, that may not be a prompt problem — it may be a genuine gap in what the tool surfaces. Know the difference before you get on the call.</div></div>
-                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Reproduce Marcus's setup experience yourself — from scratch.</strong> Open the Figma MCP getting started guide as if you've never done this before. Time how long it takes to get a working connection. Where does it get complicated? What's missing from the docs? You can't help Marcus until you've felt the friction yourself.</div></div>
-                <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Now design the 45 minutes.</strong> You have a technical answer for Dana (what the tool surfaces, what it doesn't, what conditions produce clean output), a practical path for Marcus (a setup you can walk through in 10 minutes), and an honest assessment for Priya. Structure the call around all three.</div></div>
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Identify which tool is responsible for token surfacing.</strong> Open your Figma MCP connection and ask Claude to list all available tools. Identify which one surfaces the design token / variable library — most likely <code>get_local_variables</code>. Run it against a file with a published variable library and inspect what comes back: are variable names present, or are values already resolved to raw numbers? That distinction is the difference between compliant and non-compliant output.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Reproduce Dana's compliance failure.</strong> Run a component generation prompt against a real Figma file. Check whether the output references variable names (<code>--color-primary-500</code>, <code>spacing-md</code>) or hardcodes values (<code>#1A73E8</code>, <code>16px</code>). Then try the same prompt against a file where variables are properly published, scoped, and named to a token convention. Document whether the output changes — and why.</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Test <code>get_styles</code> vs <code>get_local_variables</code> for compliance coverage.</strong> A design system using Figma's legacy styles pipeline responds differently from one using the variable library. Run both against the same file and document what each returns. If the token library uses variables but the generation prompt only triggers <code>get_styles</code>, that alone could explain every compliance failure Dana found.</div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Identify the file configuration conditions for compliant output.</strong> What does the Figma file need to look like — variable scoping, library publishing, token naming conventions, collection structure — for <code>use_figma</code> to reliably output token references? Document this as a checklist. This is what you'd need to give Dana's team as a "prerequisites for production use" doc.</div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Determine whether this is fixable or a genuine product gap.</strong> Is there a setup where <code>use_figma</code> reliably produces design-system-compliant output today — one you could demonstrate live and that would pass Dana's audit? Or is there a real gap that no prompt engineering or file configuration can solve right now? Know which it is. Priya needs a real answer, not reassurance.</div></div>
+                <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Prepare Marcus's setup path as a separate problem.</strong> Go through the Figma MCP setup from scratch as if you've never done it. Where does it get hard for someone non-technical? Prepare a 10-minute setup walkthrough you could run live on the call — with the documentation gaps already filled in.</div></div>
               </div>
               <div class="callout callout-teal">
-                <strong>The technical question that matters most:</strong> Is Dana's layout and spacing token gap because the design system's variables aren't being surfaced by <code>get_local_variables</code>, or because the prompt isn't referencing them correctly, or because the file's variable library isn't published? Each of those has a different fix. Know which it is.
+                <strong>The question that determines the call:</strong> Can you demonstrate a <code>use_figma</code> setup that produces token-compliant output — one that would pass Dana's governance audit — or not? If yes, the call is about showing that and explaining what conditions require it. If no, the call is about being honest with Priya about what needs to change before this is production-ready.
               </div>
               <div class="callout callout-amber" style="margin-top:8px">
-                <strong>Context from the team's last session:</strong> The group flagged that the Figma MCP getting started documentation needs significant improvement. Marcus may have run directly into that gap. As an SC, you should know exactly where the docs fall short and have your own setup resources ready to fill the gap.
+                <strong>Context from the team's last session:</strong> The group flagged that the Figma MCP getting started documentation needs significant improvement. Marcus may have run directly into that gap. Know where the docs fall short and have your own setup resources ready to fill it.
               </div>
             </div>
           </div>
@@ -872,29 +874,29 @@
           <div class="activity-section-title">FigJam — Add Before 12:30</div>
           <div class="figjam-card">
             <div class="figjam-label">📋 Required prompts</div>
-            <div class="fj-prompt">Which use_figma tool I'd use to diagnose Dana's spacing token issue — and what I found when I tested it:</div>
-            <div class="fj-prompt">The specific gap I found between what use_figma surfaces and what Dana's prompt needed — and whether it's a tool limitation or a fixable condition:</div>
-            <div class="fj-prompt">What I found when I went through the Figma MCP setup from scratch — where it breaks down for a non-technical user and what's missing from the docs:</div>
-            <div class="fj-prompt">The honest limits of use_figma today — what I'd tell Priya is a real product gap vs what's solvable with better prompting or file configuration:</div>
+            <div class="fj-prompt">What I found when I ran get_local_variables against a real design system file — did it return variable names or resolved values, and what does that mean for compliance?</div>
+            <div class="fj-prompt">Whether I could reproduce compliant output (token references, not hardcoded values) — and exactly what conditions were required to get there:</div>
+            <div class="fj-prompt">My honest assessment: is the compliance failure a fixable configuration/prompt problem or a genuine gap in what use_figma surfaces today?</div>
+            <div class="fj-prompt">What I found when I went through the MCP setup from scratch — where it breaks down for a non-technical user and what I'd do differently for Marcus:</div>
           </div>
         </div>
       </div>
 
       <div class="tab-content" id="w3-deliverables">
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Technical diagnosis doc</div><div class="deliverable-type">Optional · async</div></div></div>
-          <div class="deliverable-desc">Write a 1-page technical breakdown of what's causing Dana's output quality issues — which <code>use_figma</code> tools are involved, what they return, what they don't, and what the fix is. Written as something you'd actually send to a customer's engineering team.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-written">📝</div><div><div class="deliverable-title">Compliance diagnosis doc</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Write a 1-page technical breakdown of Dana's compliance finding — which <code>use_figma</code> tools are involved, what conditions cause hardcoded output vs token-referenced output, what the file needs to look like for compliant generation, and what's a genuine product gap vs what's configurable today. Written as something you'd send to Dana's engineering team before the next call.</div>
         </div>
         <div class="deliverable-card">
-          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — technical walkthrough</div><div class="deliverable-type">Optional · async</div></div></div>
-          <div class="deliverable-desc">Record a 5-minute Loom showing the specific <code>use_figma</code> tools in action against a real design system file — <code>get_local_variables</code>, <code>get_styles</code>, and the output differences between them. Narrate what Dana would have seen and what you'd do differently. Should be watchable by a front-end engineer who has never seen MCP before.</div>
+          <div class="deliverable-header"><div class="deliverable-icon icon-demo">🎥</div><div><div class="deliverable-title">Loom — compliance demo</div><div class="deliverable-type">Optional · async</div></div></div>
+          <div class="deliverable-desc">Record a 5-minute Loom showing the difference between a component generation that produces hardcoded values vs one that produces token references — same prompt, different file configurations. Narrate what changed and why. Should be concrete enough that Dana could use it to evaluate whether the fix works in their environment.</div>
         </div>
         <div class="deliverable-card">
           <div class="deliverable-header"><div class="deliverable-icon icon-quiz">✓</div><div><div class="deliverable-title">Self-check</div><div class="deliverable-type">Optional · self-assessment</div></div></div>
           <div class="deliverable-items">
-            <div class="deliverable-item"><div class="di-dot"></div><span>Can you list the tools <code>use_figma</code> exposes and say specifically what each one returns — without looking it up?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Do you know the difference between what <code>get_styles</code> and <code>get_local_variables</code> return, and when each one matters for design token output?</span></div>
-            <div class="deliverable-item"><div class="di-dot"></div><span>Have you reproduced Dana's issue yourself and confirmed whether it's a tool coverage gap or a solvable prompt/config problem?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Can you explain the difference between <code>get_styles</code> and <code>get_local_variables</code> and say which one a variable-based design system depends on for token compliance?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Have you reproduced both the failing and passing case — non-compliant output and compliant output — and do you know exactly what changed between them?</span></div>
+            <div class="deliverable-item"><div class="di-dot"></div><span>Do you have an honest answer for Priya — either a clear path to compliant output or a candid assessment of what's a real product gap today?</span></div>
             <div class="deliverable-item"><div class="di-dot"></div><span>Could you walk Marcus through a working <code>use_figma</code> setup in 10 minutes, having gone through it from scratch yourself first?</span></div>
           </div>
         </div>
