@@ -314,7 +314,7 @@
             <div class="nav-week-type">Deep dive</div>
           </div>
         </div>
-        <div class="nav-item type-open active" onclick="showWeek(3)">
+        <div class="nav-item type-open" onclick="showWeek(3)">
           <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">3</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Customer Scenario — MCP Applied</div>
@@ -324,7 +324,7 @@
       </div>
       <div class="sprint-group">
         <div class="sprint-label">Sprint 2 — Figma AI Features</div>
-        <div class="nav-item type-foundations" onclick="showWeek(4)">
+        <div class="nav-item type-foundations active" onclick="showWeek(4)">
           <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">4</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Make — Pressure Testing</div>
@@ -795,7 +795,7 @@
     </div>
 
     <!-- ===== WEEK 3 ===== -->
-    <div class="week-view active" id="week-3">
+    <div class="week-view" id="week-3">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-open">Open-Ended</span>
@@ -906,7 +906,7 @@
     </div>
 
     <!-- ===== WEEK 4 ===== -->
-    <div class="week-view" id="week-4">
+    <div class="week-view active" id="week-4">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-foundations">Deep Dive</span>
@@ -958,9 +958,77 @@
 
       <div class="tab-content" id="w4-activities">
         <div class="activity-section">
+          <div class="activity-section-title">What You're Testing — Definitions</div>
+          <div class="callout callout-amber" style="margin-bottom:12px">
+            <strong>Read this first:</strong> Before diving into testing, read Figma's official introduction to Make Kits and Make Attachments — it covers what each surface is, how they differ, and the intended use cases. ↗ <a href="https://www.figma.com/blog/introducing-make-kits-and-make-attachments/" target="_blank" style="color:var(--amber)">Introducing Make Kits and Make Attachments (Figma Blog)</a>
+          </div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Make Kits — what they are and when to use them</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">read before testing</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">A <strong>Make Kit</strong> is a curated Figma file that provides Make with structured design context — components, styles, variables, and layout patterns — that it uses as the reference source when generating code. Think of it as handing Make a well-organised design system it can reason about.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>What it contains:</strong> Components with variants, design tokens published as variables, naming conventions, and sometimes example usage patterns. The quality of the kit directly affects the quality of Make's output.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>When to use it:</strong> When a customer's design system is primarily in Figma and they want Make to generate code that's faithful to that system. Best fit when the team has a well-maintained Figma library with published variables.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>The key variable:</strong> Kit quality determines output quality. A kit with inconsistent naming, unpublished variables, or sparse component coverage will produce worse output than a clean, well-structured one — regardless of how good the prompt is.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Enterprise consideration:</strong> Customers with existing Figma design systems can use or adapt their own library as a kit. The question to ask in discovery: "Is your Figma library published, and do your components use variables for all token values?"</div></div>
+              </div>
+              <div class="docs-section">
+                <div class="docs-label">Docs</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://help.figma.com/hc/en-us/articles/39241689698839-Get-started-with-Make-kits" target="_blank">Get started with Make Kits (Help Center)</a><div class="doc-note">Official reference — setup, structure, and how kits interact with Make</div></div></div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.figma.com/community/make" target="_blank">Figma Make Community — browse available kits</a></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Make Templates — what they are and when to use them</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">read before testing</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">A <strong>Make Template</strong> is a pre-built Figma design that serves as a starting point for generation. Rather than building from a design system, Make uses the template's structure, layout, and component patterns as the source of truth for what to generate.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>What it contains:</strong> A complete screen or component layout — often a page template, dashboard, or UI pattern — that Make uses as a structural reference when generating code.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>When to use it:</strong> When a customer wants to generate code from a specific design quickly, without a full design system setup. Best fit for teams that are earlier in their design system journey, or for one-off screen generation rather than systematic component production.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>The key variable:</strong> How closely the generated code follows the template depends on how structured and consistent the template's design is. Heavy customisation away from the original template structure tends to degrade output quality.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Enterprise consideration:</strong> Templates are faster to get started with than kits but produce less reusable, system-consistent output. The question for customers: are they trying to ship a specific screen quickly, or build a repeatable design-to-code workflow?</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">npm packages — what they are and when to use them</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">read before testing</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="activity-desc">When Make is given an <strong>npm package</strong> reference, it uses the package's component API — prop names, component structure, export patterns — as the source of truth for the code it generates. Instead of inferring component structure from a Figma design, it generates code that uses the real components from the customer's existing library.</div>
+              <div class="step-list">
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>What it provides:</strong> Make reads the package's exported components and their prop interfaces. It then generates code that imports and uses those real components rather than creating new ones from scratch.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>When to use it:</strong> When a customer has an existing component library on npm and wants generated code to use their actual components — not new implementations. This is the highest-fidelity path for teams with mature front-end codebases.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>The key variable:</strong> Output quality is directly tied to the package's documentation and naming clarity. A well-documented, consistently-named package gives Make clear signals. An undocumented package with inconsistent prop naming gives it very little to work with.</div></div>
+                <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Enterprise consideration:</strong> Most enterprise customers have internal npm packages that are functional but sparsely documented — evolved over years rather than designed for external consumption. Managing expectations around output quality for these packages is one of the most important things to get right in discovery.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-section">
           <div class="activity-section-title">The 3 Cross-Cutting Test Cases — run these against all surfaces</div>
           <div class="callout callout-teal">
-            <strong>Test like an enterprise customer would use it:</strong> Use a Figma file with a real design system — design tokens, components with variants, proper hierarchy. The more enterprise-realistic your test conditions, the more useful your findings will be for actual customer conversations.
+            <strong>Now that you know what each surface is:</strong> Run the same three prompts against all three — kits, templates, and npm packages. The comparison is the point. Use a Figma file with a real design system — design tokens, components with variants, proper hierarchy. Don't test against a toy file.
           </div>
           <div class="activity-card open">
             <div class="activity-header" onclick="toggleActivity(this)">
@@ -971,15 +1039,15 @@
               <div class="activity-chevron">▾</div>
             </div>
             <div class="activity-body">
-              <div class="activity-desc">Run these same three prompts against Make Kits, Templates, and npm packages. Use a Figma file that has an actual design system — design tokens, components with variants, real hierarchy. Don't test against a toy file.</div>
+              <div class="activity-desc">Run these three prompts against Make Kits, Templates, and npm packages — in that order, with the same Figma file each time. The goal is a direct comparison across surfaces, not isolated results.</div>
               <div class="step-list">
                 <div class="step"><div class="step-num">A</div><div class="step-text"><strong>Component with design tokens:</strong> <em>"Generate a primary button that uses our design system's color tokens, with default, hover, focus, and disabled states. The output should reference token names, not hardcoded values."</em> — This is where Make often loses vs Claude Code. Document what you get and how much manual cleanup a developer would need.</div></div>
-                <div class="step"><div class="step-num">B</div><div class="step-text"><strong>Complex enterprise component:</strong> <em>"Generate a data table with sortable headers, row selection, inline status badges, and a bulk action toolbar. Match the component library patterns exactly."</em> — How does Make handle structural complexity? Where does it diverge from the Figma source?</div></div>
-                <div class="step"><div class="step-num">C</div><div class="step-text"><strong>Multi-variant component from a design system:</strong> <em>"Generate a form input with label, helper text, error state, and character counter — matching our design system's spacing, typography, and color variables."</em> — This tests whether Make can faithfully translate a component that has a well-defined spec in Figma. Compare output to what Claude Code alone would produce from the same prompt.</div></div>
+                <div class="step"><div class="step-num">B</div><div class="step-text"><strong>Complex enterprise component:</strong> <em>"Generate a data table with sortable headers, row selection, inline status badges, and a bulk action toolbar. Match the component library patterns exactly."</em> — How does each surface handle structural complexity? Where does it diverge from the Figma source?</div></div>
+                <div class="step"><div class="step-num">C</div><div class="step-text"><strong>Multi-variant component from a design system:</strong> <em>"Generate a form input with label, helper text, error state, and character counter — matching our design system's spacing, typography, and color variables."</em> — This tests whether each surface can faithfully translate a component with a well-defined spec in Figma.</div></div>
               </div>
               <div class="docs-section" style="margin-top:14px">
-                <div class="docs-label">For each test, document honestly:</div>
-                <div class="doc-item"><div class="doc-arrow">→</div><div class="doc-note" style="font-size:13px;color:var(--text2)">Output quality (1–5) · Token accuracy (did it use design tokens or hardcode values?) · Component adherence (how close to the Figma source?) · Developer effort needed after · Where it beat your expectation · Where it lost vs Claude Code</div></div>
+                <div class="docs-label">For each surface + prompt combination, document:</div>
+                <div class="doc-item"><div class="doc-arrow">→</div><div class="doc-note" style="font-size:13px;color:var(--text2)">Output quality (1–5) · Token accuracy (referenced or hardcoded?) · Component adherence (how close to the Figma source?) · Developer effort needed after · How it compared to the other two surfaces for the same prompt</div></div>
               </div>
             </div>
           </div>
@@ -990,29 +1058,23 @@
           <div class="activity-card">
             <div class="activity-header" onclick="toggleActivity(this)">
               <div class="activity-header-left">
-                <div class="activity-title">Make Kits</div>
+                <div class="activity-title">Make Kits — pressure testing</div>
                 <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~40 min</span></div>
               </div>
               <div class="activity-chevron">▾</div>
             </div>
             <div class="activity-body">
-              <div class="watch-first">
-                <div class="watch-first-label">▶ Watch First</div>
-                <div class="video-item">
-                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
-                  <div class="video-info">
-                    <div class="video-title"><a href="https://help.figma.com/hc/en-us/articles/24950026906263" target="_blank">Figma Make — Getting Started (Official Help Center)</a></div>
-                    <div class="video-dur">~8 min · Start here for Make overview</div>
-                  </div>
+              <div class="callout callout-teal" style="margin-bottom:12px">
+                <strong>For this test, build your kit from Ant Design.</strong> Ant Design is one of the most widely used enterprise component libraries — large, well-structured, and representative of what real enterprise customers work with. Clone the repo, pick a set of components, and build your Make Kit from that source. ↗ <a href="https://github.com/ant-design/ant-design" target="_blank" style="color:var(--teal)">github.com/ant-design/ant-design</a>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;background:var(--bg4);border:0.5px solid var(--border2);border-radius:4px;padding:8px 10px;color:var(--accent);line-height:1.8;margin-top:8px;">
+                  git clone https://github.com/ant-design/ant-design.git<br>
+                  cd ant-design<br>
+                  npm install
                 </div>
-              </div>
-              <div class="docs-section">
-                <div class="docs-label">Docs</div>
-                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://help.figma.com/hc/en-us/articles/24950026906263" target="_blank">Figma Make Help Center</a></div></div>
-                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.figma.com/community/make" target="_blank">Figma Make Community — Kits and Templates</a></div></div>
+                <div style="font-size:11px;color:var(--teal);opacity:0.8;margin-top:6px;">Browse components at <a href="https://ant.design/components/overview" target="_blank" style="color:var(--teal)">ant.design/components ↗</a> to choose which ones to include in your kit. Button, Input, Table, and Select are good starting points — they cover a range of complexity.</div>
               </div>
               <div class="step-list">
-                <div class="step"><div class="step-num">1</div><div class="step-text">Run all 3 cross-cutting test cases against 2 different kits. Do the kits affect output quality? How?</div></div>
+                <div class="step"><div class="step-num">1</div><div class="step-text">Run all 3 cross-cutting test cases against your Ant Design-based kit. Do the kits affect output quality? How does Make handle a large, mature component library vs a minimal one?</div></div>
                 <div class="step"><div class="step-num">2</div><div class="step-text">Test how prompts transfer across kits — does the same prompt get better results with a different kit?</div></div>
               </div>
               <div class="tier-grid">
@@ -1026,7 +1088,7 @@
           <div class="activity-card">
             <div class="activity-header" onclick="toggleActivity(this)">
               <div class="activity-header-left">
-                <div class="activity-title">Make Templates</div>
+                <div class="activity-title">Make Templates — pressure testing</div>
                 <div class="activity-meta"><span class="activity-tag tag-primary">primary</span><span class="activity-duration">~40 min</span></div>
               </div>
               <div class="activity-chevron">▾</div>
@@ -1057,9 +1119,75 @@
               </div>
               <div class="callout callout-coral"><strong>Test against real conditions.</strong> Most enterprise customers have complex Figma files and varied npm packages. Testing Make only against clean, simple inputs will underrepresent what it can do — and leave you underprepared for the range of situations you'll encounter with customers.</div>
               <div class="docs-section">
-                <div class="docs-label">Reference packages for testing</div>
-                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://ui.shadcn.com" target="_blank">shadcn/ui</a><div class="doc-note">Clean, well-documented — good baseline</div></div></div>
-                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://www.radix-ui.com" target="_blank">Radix UI</a><div class="doc-note">Headless components — tests how Make handles unstyled primitives</div></div></div>
+                <div class="docs-label">Reference packages for testing — setup instructions</div>
+
+                <div style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;">
+                  <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:4px;">shadcn/ui <span style="font-size:10px;font-weight:400;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;">Clean, well-documented — use as your baseline</span></div>
+                  <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px;">Scaffold a new project and install the package, then browse available components at <a class="doc-link" href="https://ui.shadcn.com/docs/components/button" target="_blank">ui.shadcn.com/docs ↗</a></div>
+                  <div style="font-family:'DM Mono',monospace;font-size:11px;background:var(--bg4);border:0.5px solid var(--border2);border-radius:4px;padding:8px 10px;color:var(--accent);line-height:1.8;">
+                    npx create-next-app@latest my-test-app<br>
+                    cd my-test-app<br>
+                    npx shadcn@latest init<br>
+                    npx shadcn@latest add button input table
+                  </div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:6px;">Point Make at this project's package.json and test against the installed components. The docs are thorough and naming is consistent — this is the ideal clean baseline.</div>
+                </div>
+
+                <div style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;">
+                  <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:4px;">Radix UI <span style="font-size:10px;font-weight:400;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;">Headless/unstyled — tests how Make handles primitives without style context</span></div>
+                  <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px;">Install individual primitives into an existing project. Docs at <a class="doc-link" href="https://www.radix-ui.com/primitives" target="_blank">radix-ui.com/primitives ↗</a></div>
+                  <div style="font-family:'DM Mono',monospace;font-size:11px;background:var(--bg4);border:0.5px solid var(--border2);border-radius:4px;padding:8px 10px;color:var(--accent);line-height:1.8;">
+                    npm install @radix-ui/react-dialog<br>
+                    npm install @radix-ui/react-dropdown-menu<br>
+                    npm install @radix-ui/react-select
+                  </div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:6px;">These are unstyled primitives — Make will need to infer or generate styles from scratch. Compare the output to shadcn/ui to see how much the absence of styling context changes things.</div>
+                </div>
+
+                <div style="background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;">
+                  <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px;">Simulating a messy enterprise package <span style="font-size:10px;font-weight:400;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;">The most realistic test condition</span></div>
+
+                  <div style="font-size:11px;font-weight:500;color:var(--text);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase;font-family:'DM Mono',monospace;">What makes a package "clean" vs "messy"</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div style="background:var(--teal-bg);border:0.5px solid var(--teal-border);border-radius:4px;padding:10px 12px;">
+                      <div style="font-size:11px;font-weight:500;color:var(--teal);margin-bottom:6px;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;">Clean</div>
+                      <div style="font-size:11px;color:var(--text2);line-height:1.7;">
+                        ✓ Consistent naming (<code style="font-size:10px">Button</code>, <code style="font-size:10px">InputField</code>, <code style="font-size:10px">DataTable</code>)<br>
+                        ✓ Single barrel file (<code style="font-size:10px">index.ts</code>) exporting everything<br>
+                        ✓ All named exports — no default export surprises<br>
+                        ✓ Props documented with TypeScript types or JSDoc<br>
+                        ✓ Predictable prop names (<code style="font-size:10px">variant</code>, <code style="font-size:10px">size</code>, <code style="font-size:10px">disabled</code>)<br>
+                        ✓ README with usage examples<br>
+                        ✓ One component per file, filename matches export name
+                      </div>
+                    </div>
+                    <div style="background:var(--coral-bg);border:0.5px solid var(--coral-border);border-radius:4px;padding:10px 12px;">
+                      <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:6px;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;">Messy</div>
+                      <div style="font-size:11px;color:var(--text2);line-height:1.7;">
+                        ✗ Inconsistent naming (<code style="font-size:10px">Btn.jsx</code>, <code style="font-size:10px">button-v2.jsx</code>, <code style="font-size:10px">NewButton</code>)<br>
+                        ✗ No barrel file — imports require full paths<br>
+                        ✗ Mixed default and named exports across files<br>
+                        ✗ No TypeScript types or prop documentation<br>
+                        ✗ Idiosyncratic prop names (<code style="font-size:10px">btnType</code>, <code style="font-size:10px">isDisabled</code>, <code style="font-size:10px">sz</code>)<br>
+                        ✗ No README or outdated docs<br>
+                        ✗ Multiple components per file, no clear structure
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px;">Rather than finding a bad public package, create one that mimics what you actually see in enterprise accounts — functional but evolved over years without governance. Use this structure:</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:11px;background:var(--bg4);border:0.5px solid var(--border2);border-radius:4px;padding:8px 10px;color:var(--accent);line-height:1.8;">
+                    mkdir messy-components && cd messy-components<br>
+                    npm init -y<br>
+                    <span style="color:var(--text3)"># Create files like:</span><br>
+                    <span style="color:var(--text3)"># Btn.jsx — default export, no prop types</span><br>
+                    <span style="color:var(--text3)"># button-secondary.jsx — named export, different API</span><br>
+                    <span style="color:var(--text3)"># components/InputField.js + Input.jsx (both exist)</span><br>
+                    <span style="color:var(--text3)"># utils.js with 3 unrelated components at the bottom</span><br>
+                    <span style="color:var(--text3)"># No index.js — consumers import by path</span>
+                  </div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:8px;">Run the same 3 test cases against this. Document exactly what Make can and can't figure out — and what you'd tell a customer their team needs to fix before getting good results.</div>
+                </div>
               </div>
             </div>
           </div>
