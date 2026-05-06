@@ -324,14 +324,14 @@
       </div>
       <div class="sprint-group">
         <div class="sprint-label">Sprint 2 — Figma AI Features</div>
-        <div class="nav-item type-foundations active" onclick="showWeek(4)">
+        <div class="nav-item type-foundations" onclick="showWeek(4)">
           <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">4</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Make — Pressure Testing</div>
             <div class="nav-week-type">Deep dive</div>
           </div>
         </div>
-        <div class="nav-item type-open" onclick="showWeek(5)">
+        <div class="nav-item type-open active" onclick="showWeek(5)">
           <div class="nav-week-num"><span class="wk-label">WK</span><span class="wk-num">5</span></div>
           <div class="nav-week-text">
             <div class="nav-week-title">Customer Scenario — Make Applied</div>
@@ -906,7 +906,7 @@
     </div>
 
     <!-- ===== WEEK 4 ===== -->
-    <div class="week-view active" id="week-4">
+    <div class="week-view" id="week-4">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-foundations">Deep Dive</span>
@@ -1227,14 +1227,14 @@
     </div>
 
     <!-- ===== WEEK 5 ===== -->
-    <div class="week-view" id="week-5">
+    <div class="week-view active" id="week-5">
       <div class="week-header">
         <div class="week-eyebrow">
           <span class="week-badge badge-open">Open-Ended</span>
           <span class="badge-sprint">Sprint 2 · Week 5</span>
         </div>
         <h1 class="week-title">Customer Scenario —<br>Make Applied</h1>
-        <p class="week-goal">Apply Week 4 findings to a real, enterprise-grade customer situation — and build the three team artifacts that the whole team can use in customer conversations going forward. These are not homework. They get built today.</p>
+        <p class="week-goal">Apply Week 4 findings to a real, enterprise-grade customer situation — and build the three team artifacts the whole team can use going forward. This week also covers Make Skills, which launched May 8 — you'll use them in the session and add your findings to the field guide.</p>
       </div>
 
       <div class="tabs">
@@ -1261,6 +1261,47 @@
       </div>
 
       <div class="tab-content" id="w5-activities">
+
+        <div class="activity-section">
+          <div class="activity-section-title">🚀 New This Week — Make Skills (Mandatory)</div>
+          <div class="activity-card open">
+            <div class="activity-header" onclick="toggleActivity(this)">
+              <div class="activity-header-left">
+                <div class="activity-title">Make Skills — launched May 8, cover this during the session</div>
+                <div class="activity-meta"><span class="activity-tag tag-primary">mandatory</span><span class="activity-tag tag-watch">▶ watch first</span></div>
+              </div>
+              <div class="activity-chevron">▾</div>
+            </div>
+            <div class="activity-body">
+              <div class="callout callout-amber" style="margin-bottom:14px">
+                <strong>What Skills are:</strong> Custom Skills in Make let you package your team's instructions and conventions into a markdown file, then invoke them with a slash command — e.g. <code>/follow-ds-guidelines</code>. Skills teach Make how your team builds, so generated output reflects your standards with fewer prompts. Right now Skills are user-level, not project-level. The ability to create and publish Skills to a shared team or org is coming later (target: Config).
+              </div>
+              <div class="watch-first">
+                <div class="watch-first-label">▶ Watch First — <span style="font-family:'DM Sans',sans-serif;font-weight:400;letter-spacing:0;text-transform:none;">password: <span style="font-family:'DM Mono',monospace;font-size:11px;background:var(--bg4);padding:1px 6px;border-radius:3px;border:0.5px solid var(--border2);color:var(--accent);">make.md</span></span></div>
+                <div class="video-item">
+                  <div class="video-icon"><svg viewBox="0 0 12 12"><polygon points="3,1 11,6 3,11"/></svg></div>
+                  <div class="video-info">
+                    <div class="video-title"><a href="https://www.loom.com/share/6069424fc13442008fd29d1fc4933c26" target="_blank">Make Skills — How they work and use cases (Internal Loom)</a> <span style="display:inline-block;font-size:9px;font-weight:500;background:var(--coral-bg);color:var(--coral);border:0.5px solid var(--coral-border);border-radius:20px;padding:1px 7px;margin-left:4px;vertical-align:middle;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;">New this week</span></div>
+                    <div class="video-dur">Internal only · Launched May 8</div>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-section" style="margin-top:12px">
+                <div class="docs-label">Reading</div>
+                <div class="doc-item"><div class="doc-arrow">↗</div><div><a class="doc-link" href="https://docs.google.com/document/d/1NAzCfpP9fL6s2RkSuXEZoFPHI946L4G5M71RMYEwdXw/edit?tab=t.4h5su67jivgr" target="_blank">Make Skills GTM Doc (Internal)</a><div class="doc-note">Full launch context, messaging, positioning, and FAQs</div></div></div>
+              </div>
+              <div class="step-list" style="margin-top:12px">
+                <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Create a Skill yourself during the session.</strong> Write a simple markdown file that captures one real convention your team or a customer team cares about — e.g. token naming rules, component naming patterns, or spacing guidelines. Invoke it with a slash command and see how it changes Make's output.</div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Think about the Week 5 scenario through a Skills lens.</strong> For Yemi and Marcus's account — could a Skill that encodes their design token naming convention help address the hardcoding problem from Week 4? How would you explain that to Marcus without making it sound like a workaround?</div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Add your Skills findings to the team field guide artifact.</strong> Skills are new enough that your hands-on findings today will directly inform how the team talks about this feature with customers going forward.</div></div>
+              </div>
+              <div class="callout callout-teal" style="margin-top:8px">
+                <strong>Positioning for customers:</strong> "Skills teach Make how your team builds, so your output reflects your standards with fewer prompts." Lead with the workflow benefit — fewer corrections, more consistency — not the technical mechanism.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="scenario-card">
           <div class="scenario-label">Customer Scenario — Week 5</div>
           <div class="scenario-text">You're in an active expansion deal at a 9,000-person enterprise retailer. They're a mature Figma org with a well-maintained design system — 300+ components, design tokens published via Style Dictionary, and a shared governance process across 6 product lines. Their front-end platform team has built a React component library on top of the design system and publishes it as an internal npm package. The package is well-structured but sparsely documented — components have accurate names but minimal prop-level documentation.<br><br>The VP of Design, Yemi, wants to use Make to let her designers produce higher-fidelity specs faster and reduce handoff friction. The Head of Front-End Engineering, Marcus, attended Yemi's pilot review and raised two concerns: first, the Make output in the pilot didn't reference their design token names — it hardcoded hex values, which means developers would need to manually replace every color reference before the code was usable. Second, Marcus said his team is already getting better results with Claude Code pulling directly from their component library, without Figma in the loop. He's not sure what Make adds.<br><br>You have a 60-minute workshop with Yemi, Marcus, and two of his senior engineers next week. What's your plan — and what do you actually build and show?</div>
